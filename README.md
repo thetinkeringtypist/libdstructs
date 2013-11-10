@@ -3,7 +3,7 @@ libdstructs
 
 Simple ANSI C Data Structures Library. This is generic data structures library
 written in ANSI C. As of this moment, the implementations are not intended to
-be C++ compatible.
+be C++ compatible or thread-safe.
 
 The list of data structures that will be included will be those that are fairly
 commonplace, including, but not limited to, linkedlists, doubly-linkedlists,
