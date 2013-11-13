@@ -18,7 +18,7 @@
  **/
 #include <stdlib.h> 			/* For malloc(...), free(...) */
 #include <string.h>			/* For memcmp(...) */
-#include "linkedlist.h"		/* For llist_t, ll_iter_t */
+#include "linkedlist.h"		/* For llist_t, ll_itr_t */
 
 
 #define ADDED 1
@@ -103,15 +103,13 @@ void ll_free(llist_t* const list){
  **/
 int ll_size(llist_t* const list){
 	__node_t *temp;
-	int size;
 	
-	size = -1;
-
-	if(!list) return size;
+	if(!list) return -1;
 
 	temp = list->__last;
 
-	return (size = temp ? (temp->index) + 1 : 0);
+	/* Return the size of list */
+	return (temp ? (temp->index) + 1 : 0);
 }
 
 
@@ -490,8 +488,8 @@ void* ll_set(llist_t* const list, int index, void* const element){
  * 	if the specified list is NULL, (index < 0 || index >= ll_size(list)), or
  * 	upon allocation error.
  **/
-ll_iter_t* ll_iterator(llist_t* const list, int index){
-	ll_iter_t *iterator;
+ll_itr_t* ll_itr(llist_t* const list, int index){
+	ll_itr_t *iterator;
 	__node_t *temp;
 
 	if(!list) return NULL;
@@ -499,7 +497,7 @@ ll_iter_t* ll_iterator(llist_t* const list, int index){
 	if(index < 0 || index >= ll_size(list))
 		return NULL;
 	
-	iterator = malloc(sizeof(ll_iter_t));
+	iterator = malloc(sizeof(ll_itr_t));
 
 	if(!iterator) return NULL;
 	
@@ -526,7 +524,7 @@ ll_iter_t* ll_iterator(llist_t* const list, int index){
  *
  * @param iterator - the iterator to destroy.
  **/
-void li_destroy(ll_iter_t* const iterator){
+void li_destroy(ll_itr_t* const iterator){
 	free(iterator);
 }
 
@@ -539,7 +537,7 @@ void li_destroy(ll_iter_t* const iterator){
  * @return 1 if there exists more elements in the iterator. Returns 0 if the
  * 	iterator is NULL or does not have anymore elements.
  **/
-int li_hasnext(ll_iter_t* const iterator){
+int li_hasnext(ll_itr_t* const iterator){
 	__node_t *temp;
 
 	if(!iterator) return !EXIST;
@@ -547,10 +545,7 @@ int li_hasnext(ll_iter_t* const iterator){
 	temp = iterator->__next;
 
 	/* There exists another element */
-	if(temp->next)
-		return EXIST;
-	
-	return !EXIST;
+	return (temp->next ? EXIST : !EXIST);
 }
 
 
@@ -561,7 +556,7 @@ int li_hasnext(ll_iter_t* const iterator){
  * @return the next element in the iterator. Returns NULL if the iterator is
  * 	NULL or there are no more elements in the iterator.
  **/
-void* li_next(ll_iter_t* const iterator){
+void* li_next(ll_itr_t* const iterator){
 	__node_t *temp;
 	
 	if(!iterator) return NULL;

@@ -31,7 +31,7 @@ typedef struct __llist_s llist_t;
  * Linkedlist iterator public, opaque data type. Contents only accessable
  * through function calls.
  **/
-typedef struct __ll_iter_s ll_iter_t;
+typedef struct __ll_iter_s ll_itr_t;
 
 
 /**
@@ -70,11 +70,11 @@ extern	void*	ll_set		(llist_t* const list, int index,
 										 void* const element);
 
 /* Linkedlist Iterator Functions */
-extern	ll_iter_t*	ll_iterator	(llist_t* const list, int index);
-extern	void			li_free		(ll_iter_t* const iterator);
+extern	ll_itr_t*	ll_itr		(llist_t* const list, int index);
+extern	void			li_free		(ll_itr_t* const iterator);
 
-extern	int			li_hasnext	(ll_iter_t* const iterator);
-extern	void*			li_next		(ll_iter_t* const iterator);
+extern	int			li_hasnext	(ll_itr_t* const iterator);
+extern	void*			li_next		(ll_itr_t* const iterator);
 
 #endif
 
