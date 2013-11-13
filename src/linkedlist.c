@@ -62,8 +62,8 @@ typedef struct __node_s{
  * the use wishes to restrict the list to.
  *
  * @param __elem_size - the size of an element in the linkedlist.
- * @return an empty linkedlist. Returns a NULL pointer upon allocation
- * 	error.
+ * @return a pointer to an empty linkedlist. Returns a NULL pointer upon
+ * 	allocation error.
  **/
 llist_t* __ll_init(size_t __elem_size){
 	llist_t *list;
@@ -122,9 +122,9 @@ int ll_size(llist_t* const list){
  * @param list - the linkedlist to add the specified element to.
  * @param index - the index to insert the specified element.
  * @param element - the specified element to add to the list.
- * @return ADDED (1) if the element is added to the list. Return !ADDED (0)
- * 	if the list is NULL, or if the specified index is less than zero (0) or
- * 	larger than the size of the list.
+ * @return 1 if the element is added to the list. Return 0 if the list is NULL,
+ * 	or if the specified index is less than zero (0) or larger than the size
+ * 	of the list.
  **/
 int ll_add(llist_t* const list, int index, void* const element){
 	__node_t *temp, *new;
@@ -221,25 +221,21 @@ void ll_addlast(llist_t* const list, void* const element){
 
 
 /**
- * Removes all elements in the specified list.
+ * Removes all elements in the specified list. Frees all memory associated with
+ * the underlying implementation of the linkedlist as well as the element that
+ * were placed into the list by the user.
  *
  * @param list - the list to clear.
  **/
 void ll_clear(llist_t* const list){
-	void *temp;
-
 	if(!list) return;
 
 	/**
 	 * While the list is not empty, remove
 	 * the first element in the list.
 	 **/
-	while(ll_size(list) != 0){
-		temp = ll_remove(list, 0);
-		free(temp);
-	}
-
-	return;
+	while(ll_size(list) != 0)
+		free(ll_remove(list, 0));
 }
 
 
@@ -385,9 +381,9 @@ int ll_indexof(llist_t* const list, void* const element){
  *
  * @param list - the list to remove the specified element from.
  * @param index - the index of the element to be removed.
- * @return REMOVED (1) if the list contained the specified element. Returns
- * 	!REMOVED (0) if the list is NULL or the index is less than zero (0) or
- * 	the index is greater than the size of the list.
+ * @return 1 if the list contained the specified element. Returns 0 if the list
+ * 	is NULL or the index is less than zero (0) or the index is greater than
+ * 	the size of the list.
  **/
 void* ll_remove(llist_t* const list, int index){
 	__node_t *temp, *target;
