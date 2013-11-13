@@ -9,8 +9,8 @@ The list of data structures that will be included will be those that are fairly
 commonplace, including, but not limited to, linkedlists, queues, vectors,
 trees, sets, and hashtables.
 
-libdstructs data structures are designed to provide the same functionality as
-the objects present in the Java Collections Framework.
+`libdstructs` data structures are designed to provide the same basic 
+functionalities as the objects present in the Java Collections Framework.
 
 
 Installation
