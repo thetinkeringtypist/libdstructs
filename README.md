@@ -23,3 +23,9 @@ Notes
 Graphs are not currently planned to be a part of this library. See
 [libgstructs](https://github.com/bezeredi/libgstructs) for that.
 
+
+License
+-------
+The `libdstructs` library is distributed under the GNU General Public License
+(GPL) version 3.
+
