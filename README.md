@@ -13,11 +13,13 @@ libdstructs data structures are designed to provide the same functionality as
 the objects present in the Java Collections Framework.
 
 
-__Installation__
+Installation
+------------
 Coming soon.
 
 
-__Notes__
+Notes
+-----
 Graphs are not currently planned to be a part of this library. See
 [libgstructs](https://github.com/bezeredi/libgstructs) for that.
 
