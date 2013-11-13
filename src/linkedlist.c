@@ -222,7 +222,7 @@ void ll_addlast(llist_t* const list, void* const element){
 
 /**
  * Removes all elements in the specified list. Frees all memory associated with
- * the underlying implementation of the linkedlist as well as the element that
+ * the underlying implementation of the linkedlist as well as the elements that
  * were placed into the list by the user.
  *
  * @param list - the list to clear.
