@@ -32,6 +32,7 @@ struct __llist_s{
 	void *__first;
 	void *__last;
 	size_t __elem_size;
+	int __size;
 };
 
 
@@ -40,6 +41,7 @@ struct __llist_s{
  **/
 struct __ll_iter_s{
 	void *__next;
+	void *__prev;
 };
 
 
@@ -59,7 +61,7 @@ typedef struct __node_s{
  *
  * NOTE: This is a function that is not intended for use by the user. The user
  * should instead use the macro ll_create(type), where type is the type that
- * the use wishes to restrict the list to.
+ * the user wishes to restrict the list to.
  *
  * @param __elem_size - the size of an element in the linkedlist.
  * @return a pointer to an empty linkedlist. Returns a NULL pointer upon
@@ -77,6 +79,7 @@ llist_t* __ll_init(size_t __elem_size){
 	list->__first = NULL;
 	list->__last = NULL;
 	list->__elem_size = __elem_size;
+	list->__size = 0;
 	
 	return list;
 }
@@ -102,14 +105,7 @@ void ll_free(llist_t* const list){
  * @return the length of the list. Returns -1 if the list is NULL.
  **/
 int ll_size(llist_t* const list){
-	__node_t *temp;
-	
-	if(!list) return -1;
-
-	temp = list->__last;
-
-	/* Return the size of list */
-	return (temp ? (temp->index) + 1 : 0);
+	return (list ? list->__size : -1);
 }
 
 
@@ -126,6 +122,7 @@ int ll_size(llist_t* const list){
  **/
 int ll_add(llist_t* const list, int index, void* const element){
 	__node_t *temp, *new;
+	int count;
 
 	if(!list) return !ADDED;
 
@@ -140,6 +137,7 @@ int ll_add(llist_t* const list, int index, void* const element){
 	/* Initialize */
 	new->element = element;
 	new->index = index;
+	new->prev = NULL;
 	new->next = NULL;
 	
 	/* Adding to empty list */
@@ -147,6 +145,7 @@ int ll_add(llist_t* const list, int index, void* const element){
 		list->__first = new;
 		list->__last = new;
 		
+		list->__size++;
 		return ADDED;
 	}
 
@@ -154,44 +153,45 @@ int ll_add(llist_t* const list, int index, void* const element){
 	if(index == ll_size(list)){
 		temp = list->__last;
 		temp->next = new;
+		new->prev = temp;
 		list->__last = new;
 
+		list->__size++;
 		return ADDED;
 	}
 
 	/* Adding to front of list */
 	if(index == 0){
 		new->next = list->__first;
+		((__node_t*) list->__first)->prev = new;
 		list->__first = new;
 	}
 
 	/* Adding somewhere in middle of list */
 	else{
+		count = 0;
 		temp = list->__first;
 		
 		/* Loop until temp is at the desired index */
 		while(temp->next){
-			if(temp->next->index == index){
+			if(count == index){
 				new->next = temp->next;
+				new->prev = temp;
+				temp->next->prev = new;
 				temp->next = new;
 				
 				break;
 			}
 
 			temp = temp->next;
+			count++;
 		}
 	}
 
 	temp = new->next;
 
-	/* Loop to increase remaining element indices by 1 */
-	while(temp){
-		(temp->index)++;
-		
-		temp = temp->next;
-	}
-
 	/* Item added */
+	list->__size++;
 	return ADDED;
 }
 
@@ -286,6 +286,7 @@ int ll_contains(llist_t* const list, void* const element){
  **/
 void* ll_get(llist_t* const list, int index){
 	__node_t *temp;
+	int count;
 
 	if(!list) return NULL;
 
@@ -293,13 +294,15 @@ void* ll_get(llist_t* const list, int index){
 		return NULL;
 	
 	temp = list->__first;
+	count = 0;
 
 	/* Loop until desired index is found */
 	while(temp){
-		if(temp->index == index)
+		if(count == index)
 			return temp->element;	/* Return the element */
 
 		temp = temp->next;
+		count++;
 	}
 	
 	/* Index not found */
@@ -353,19 +356,22 @@ void* ll_last(llist_t* const list){
 int ll_indexof(llist_t* const list, void* const element){
 	__node_t *temp;
 	size_t num_bytes;
+	int count;
 
 	if(!list) return -1;
 	
 	temp = list->__first;
 	num_bytes = list->__elem_size;
+	count = 0;
 
 	/* Look for first occurrence of element */
 	while(temp){
 		/* If the element is found */
 		if(memcmp(element, temp->element, num_bytes) == 0)
-			return temp->index;
+			return count;
 
 		temp = temp->next;
+		count++;
 	}
 
 	/* Element not found */
@@ -386,6 +392,7 @@ int ll_indexof(llist_t* const list, void* const element){
 void* ll_remove(llist_t* const list, int index){
 	__node_t *temp, *target;
 	void *result;
+	int count;
 
 	if(!list) return NULL;
 	
@@ -399,6 +406,7 @@ void* ll_remove(llist_t* const list, int index){
 	if(index == 0){
 		target = list->__first;
 		temp = target->next;
+		temp->prev = NULL;
 		list->__first = temp;
 
 		/* There was only one element in the list to remove */
@@ -409,33 +417,30 @@ void* ll_remove(llist_t* const list, int index){
 	/* Remove from elsewhere in list */
 	else{
 		temp = list->__first;
+		count = 1;
 		
 		/* Loop until temp is at the desired index */
 		while(temp->next){
-			if(temp->next->index == index){
+			if(count == index){
 				target = temp->next;
+				target->next->prev = temp;
 				temp->next = target->next;
 
 				break;
 			}
 
 			temp = temp->next;
+			count++;
 		}
 	}
 
 	temp = target->next;
 
-	/* Loop to decrease following indices by 1 */
-	while(temp){
-		(temp->index)--;
-
-		temp = temp->next;
-	}
-
 	/* Grab element, free containing node */
 	result = target->element;
 	free(target);
 
+	list->__size--;
 	return result;
 }
 
@@ -451,6 +456,7 @@ void* ll_remove(llist_t* const list, int index){
 void* ll_set(llist_t* const list, int index, void* const element){
 	__node_t *temp;
 	void *former;
+	int count;
 
 	if(!list) return NULL;
 
@@ -458,10 +464,11 @@ void* ll_set(llist_t* const list, int index, void* const element){
 		return NULL;
 	
 	temp = list->__first;
+	count = 0;
 
 	/* Loop until desired index is found */
 	while(temp){
-		if(temp->index == index){
+		if(count == index){
 			former = temp->element;
 			temp->element = element;
 
@@ -469,6 +476,7 @@ void* ll_set(llist_t* const list, int index, void* const element){
 		}
 
 		temp = temp->next;
+		count++;
 	}
 
 	/* Index not found */
@@ -491,6 +499,7 @@ void* ll_set(llist_t* const list, int index, void* const element){
 ll_itr_t* ll_itr(llist_t* const list, int index){
 	ll_itr_t *iterator;
 	__node_t *temp;
+	int count;
 
 	if(!list) return NULL;
 	
@@ -502,16 +511,19 @@ ll_itr_t* ll_itr(llist_t* const list, int index){
 	if(!iterator) return NULL;
 	
 	temp = list->__first;
+	count = 0;
 
 	/* Loop to desired position */
 	while(temp){
-		if(temp->index == index){
+		if(count == index){
 			iterator->__next = temp;
-			
+			iterator->__prev = temp->prev;
+
 			return iterator;
 		}
 
 		temp = temp->next;
+		count++;
 	}
 
 	/* Index not found */
@@ -531,21 +543,33 @@ void li_destroy(ll_itr_t* const iterator){
 
 /**
  * Indicates whether or not the iterator has more elements. In other words,
- * returns EXIST (1) if li_next(...) would return an element.
+ * returns 1 if li_next(...) would return an element.
  *
  * @param iterator - the iterator to check against for more elements.
  * @return 1 if there exists more elements in the iterator. Returns 0 if the
  * 	iterator is NULL or does not have anymore elements.
  **/
 int li_hasnext(ll_itr_t* const iterator){
-	__node_t *temp;
-
 	if(!iterator) return !EXIST;
-	
-	temp = iterator->__next;
 
 	/* There exists another element */
-	return (temp->next ? EXIST : !EXIST);
+	return (iterator->__next ? EXIST : !EXIST);
+}
+
+
+/**
+ * Indicates whether or not the iterator has previous elements. In other words,
+ * returns 1 if li_prev(...) would return an element.
+ *
+ * @param iterator - the iterator to check against for previous elements.
+ * @return 1 if there exists a previous element in the iterator. Returns 0 if
+ * 	the iterator is NULL of does not have any previous elements.
+ **/
+int li_hasprev(ll_itr_t* const iterator){
+	if(!iterator) return !EXIST;
+
+	/* There exists a previous element */
+	return (iterator->__prev ? EXIST : !EXIST);
 }
 
 
@@ -570,6 +594,31 @@ void* li_next(ll_itr_t* const iterator){
 	}
 
 	/* No more items */
+	return NULL;
+}
+
+
+/**
+ * Retrieves (but does not remove) the previous element in the iterator.
+ *
+ * @param iterator - the iterator to return an element from.
+ * @return the previous element in the iterator. Returns NULL if the iterator
+ * 	is NULL or there are no previous elements in the iterator.
+ **/
+void* li_prev(ll_itr_t* const iterator){
+	__node_t *temp;
+
+	if(!iterator) return NULL;
+
+	temp = iterator->__prev;
+
+	/* Move iterator backwards */
+	if(temp){
+		iterator->__prev = temp->prev;
+		return temp->element;
+	}
+
+	/* No previous items */
 	return NULL;
 }
 

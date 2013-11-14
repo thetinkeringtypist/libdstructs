@@ -74,7 +74,9 @@ extern	ll_itr_t*	ll_itr		(llist_t* const list, int index);
 extern	void			li_free		(ll_itr_t* const iterator);
 
 extern	int			li_hasnext	(ll_itr_t* const iterator);
+extern	int			li_has_prev	(ll_itr_t* const iterator);
 extern	void*			li_next		(ll_itr_t* const iterator);
+extern	void*			li_prev		(ll_itr_t* const iterator);
 
-#endif
+#endif	/* __LIBDSTRUCTS_LINKEDLIST_H__ */
 
