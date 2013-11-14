@@ -37,7 +37,7 @@ typedef struct __ll_iter_s ll_itr_t;
 /**
  * Wrapper macro for __ll_init(size_t __alloc_size).
  **/
-#define ll_init(type) __ll_init(sizeof(type))
+#define ll_init(type) (__ll_init(sizeof(type)))
 
 
 /** FUNCTION PROTOTYPES **/
@@ -46,7 +46,7 @@ typedef struct __ll_iter_s ll_itr_t;
  * NOTE: __ll_init(...) is not intended for use by the user. Use the wrapper
  * macro ll_init(...) instead.
  **/
-extern	llist_t*				__ll_init	(size_t __element_size);
+extern	llist_t*				__ll_init	(size_t __elem_size);
 extern	void					ll_free		(llist_t* const list);
 
 extern	int	ll_size		(llist_t* const list);
