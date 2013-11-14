@@ -202,7 +202,7 @@ int ll_add(llist_t* const list, int index, void* const element){
  * @param list - the list to add the specified element to.
  * @param element - the element to add to the list.
  **/
-void ll_addfirst(llist_t* const list, void* const element){
+void ll_addf(llist_t* const list, void* const element){
 	ll_add(list, 0, element);
 }
 
@@ -213,7 +213,7 @@ void ll_addfirst(llist_t* const list, void* const element){
  * @param list - the list to add the specified element to.
  * @param element - the element to add to the list.
  **/
-void ll_addlast(llist_t* const list, void* const element){
+void ll_addl(llist_t* const list, void* const element){
 	ll_add(list, ll_size(list), element);
 }
 
@@ -233,7 +233,7 @@ void ll_clear(llist_t* const list){
 	 * the first element in the list.
 	 **/
 	while(ll_size(list) != 0)
-		free(ll_remove(list, 0));
+		free(ll_rem(list, 0));
 }
 
 
@@ -389,7 +389,7 @@ int ll_indexof(llist_t* const list, void* const element){
  * 	is NULL or the index is less than zero (0) or the index is greater than
  * 	the size of the list.
  **/
-void* ll_remove(llist_t* const list, int index){
+void* ll_rem(llist_t* const list, int index){
 	__node_t *temp, *target;
 	void *result;
 	int count;

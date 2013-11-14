@@ -51,13 +51,13 @@ extern	void					ll_free		(llist_t* const list);
 
 extern	int	ll_size		(llist_t* const list);
 
+extern	void	ll_addf		(llist_t* const list, void* const element);
+extern	void	ll_addl		(llist_t* const list, void* const element);
 extern	int	ll_add		(llist_t* const list, int index,
 										void* const element);
-extern	void	ll_addfirst	(llist_t* const list, void* const element);
-extern	void	ll_addlast	(llist_t* const list, void* const element);
 
 extern	void	ll_clear		(llist_t* const list);
-extern	int	ll_contains	(llist_t* const list, void* const element);
+extern	int	ll_contains (llist_t* const list, void* const element);
 
 extern	void*	ll_get		(llist_t* const list, int index);
 extern	void*	ll_first		(llist_t* const list);
@@ -65,7 +65,7 @@ extern	void*	ll_last		(llist_t* const list);
 
 extern	int	ll_indexof	(llist_t* const list, void* const element);
 
-extern	void*	ll_remove	(llist_t* const list, int index);
+extern	void*	ll_rem		(llist_t* const list, int index);
 extern	void*	ll_set		(llist_t* const list, int index,
 										 void* const element);
 
@@ -74,7 +74,7 @@ extern	ll_itr_t*	ll_itr		(llist_t* const list, int index);
 extern	void			li_free		(ll_itr_t* const iterator);
 
 extern	int			li_hasnext	(ll_itr_t* const iterator);
-extern	int			li_has_prev	(ll_itr_t* const iterator);
+extern	int			li_hasprev	(ll_itr_t* const iterator);
 extern	void*			li_next		(ll_itr_t* const iterator);
 extern	void*			li_prev		(ll_itr_t* const iterator);
 
