@@ -446,6 +446,30 @@ void* ll_rem(llist_t* const list, int index){
 
 
 /**
+ * Removes and returns the first element in the specified list.
+ *
+ * @param list - the list to retrieve the element from.
+ * @return the first element in the list. Returns NULL if the list is empty or
+ * 	NULL.
+ **/
+void* ll_remf(llist_t* const list){
+	return ll_rem(list, 0);
+}
+
+
+/**
+ * Removes and returns the last element in the specified list.
+ *
+ * @param list - the list to retrieve the element from.
+ * @return the last element in the list. Returns NULL if the list is empty or
+ * 	NULL.
+ **/
+void* ll_reml(llist_t* const list){
+	return ll_rem(list, ll_size(list) - 1);
+}
+
+
+/**
  * Replaces the element at the specified index with the specified element.
  *
  * @param list - the list in which to replace the specified element.
@@ -481,6 +505,31 @@ void* ll_set(llist_t* const list, int index, void* const element){
 
 	/* Index not found */
 	return NULL;
+}
+
+
+/**
+ * Creates and returns a pointer to an array representation of the list.
+ *
+ * @param list - the list to translate to an array.
+ * @return a pointer to an array representation of the list.
+ **/
+void** ll_toarr(llist_t* const list){
+	int** array;
+	int i, count;
+
+	if(!list) return NULL;
+
+	count = list->__size;
+
+	array = malloc(sizeof(void*));
+
+	if(!array) return NULL;
+
+	for(i = 0; i < count; i++)
+		array[i] = ll_get(list, i);
+	
+	return (void**) array;
 }
 
 
@@ -536,7 +585,7 @@ ll_itr_t* ll_itr(llist_t* const list, int index){
  *
  * @param iterator - the iterator to destroy.
  **/
-void li_destroy(ll_itr_t* const iterator){
+void li_free(ll_itr_t* const iterator){
 	free(iterator);
 }
 

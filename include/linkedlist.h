@@ -66,8 +66,13 @@ extern	void*	ll_last		(llist_t* const list);
 extern	int	ll_indexof	(llist_t* const list, void* const element);
 
 extern	void*	ll_rem		(llist_t* const list, int index);
+extern	void*	ll_remf		(llist_t* const list);
+extern	void* ll_reml		(llist_t* const list);
 extern	void*	ll_set		(llist_t* const list, int index,
 										 void* const element);
+
+extern	void**	ll_toarr	(llist_t* const list);
+
 
 /* Linkedlist Iterator Functions */
 extern	ll_itr_t*	ll_itr		(llist_t* const list, int index);
