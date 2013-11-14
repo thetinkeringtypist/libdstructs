@@ -1,7 +1,6 @@
 Data Structures Planned to be Covered
 =====================================
 
-Linkedlist (doubly-linked)
 Queue
 Priority-Queue
 Stack
@@ -14,4 +13,10 @@ N-Way-Search-Tree
 Heap
 
 Iterator (?)
+
+
+Non-Urgent
+----------
+ * Make linkedlist add/remove faster by comparing index with list size then
+   iterate through the list forward/backward for addition/removal accordingly.
 
