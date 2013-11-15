@@ -22,11 +22,11 @@ trees, sets, and hashtables.
 Implemenation
 -------------
 All data structures are implemented as opaque data types. This means that they
-cannot be allocated on the stack and must be accessed though function calls and
-pointers. For example:
+cannot be allocated on the stack and must be accessed though function calls
+explicitly. For example:
 
 	void example(void){
-		llist *list;	/* Pointer */
+		llist_t *list;	/* Pointer on stack */
 
 		list = ll_init(int);	/* Allocation on the heap */
 
@@ -41,7 +41,7 @@ is how you would create and destroy a linkedlist. The following is an example
 of something that cannot be done:
 
 	void example(void){
-		llist list;	/* Allocation on the stack */
+		llist_t list;	/* Allocation on the stack */
 
 		.
 		.
@@ -50,7 +50,25 @@ of something that cannot be done:
 
 The compiler cannot determine how much space on the stack to make for the
 linkedlist since the data type is opaque. All of that information is hidden
-inside of the appropriate translation unit.
+inside of the appropriate translation unit. Another example of something that
+cannot be done is dereferencing pointers of these opaque data types:
+
+	void example(void){
+		llist_t *list;
+		int number;
+
+		list = ll_init(int);	/* Allocation on the heap */
+
+		.
+		.
+		.
+
+		number = list->size;	/* Error: dereferencing incomplete type */
+	}
+
+The compiler cannot calculate the offset into a structure that is incomplete.
+As a result, this error occurs. `libdstructs` data structures are designed in
+such a manner so as to force the idea of data encapsulation.
 
 
 Installation
