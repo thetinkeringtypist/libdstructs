@@ -120,7 +120,7 @@ int ll_size(llist_t* const list){
  * 	or if the specified index is less than zero (0) or larger than the size
  * 	of the list.
  **/
-int ll_add(llist_t* const list, int index, void* const element){
+int ll_add(llist_t* const list, int index, void* const elem){
 	__node_t *temp, *new;
 	int count;
 
@@ -135,7 +135,7 @@ int ll_add(llist_t* const list, int index, void* const element){
 
 
 	/* Initialize */
-	new->element = element;
+	new->element = elem;
 	new->index = index;
 	new->prev = NULL;
 	new->next = NULL;
@@ -202,8 +202,8 @@ int ll_add(llist_t* const list, int index, void* const element){
  * @param list - the list to add the specified element to.
  * @param element - the element to add to the list.
  **/
-void ll_addf(llist_t* const list, void* const element){
-	ll_add(list, 0, element);
+void ll_addf(llist_t* const list, void* const elem){
+	ll_add(list, 0, elem);
 }
 
 
@@ -213,8 +213,8 @@ void ll_addf(llist_t* const list, void* const element){
  * @param list - the list to add the specified element to.
  * @param element - the element to add to the list.
  **/
-void ll_addl(llist_t* const list, void* const element){
-	ll_add(list, ll_size(list), element);
+void ll_addl(llist_t* const list, void* const elem){
+	ll_add(list, ll_size(list), elem);
 }
 
 
@@ -251,7 +251,7 @@ void ll_clear(llist_t* const list){
  * @return 1 if the element exists in the specified list. Returns 0 otherwise
  * 	or if the list is NULL;
  **/
-int ll_contains(llist_t* const list, void* const element){
+int ll_contains(llist_t* const list, void* const elem){
 	__node_t *temp;
 	size_t num_bytes;
 
@@ -263,7 +263,7 @@ int ll_contains(llist_t* const list, void* const element){
 	/* Loop through to find the element */
 	while(temp){
 		/* If the element is found */
-		if(memcmp(element, temp->element, num_bytes) == 0)
+		if(memcmp(elem, temp->element, num_bytes) == 0)
 			return EXIST;
 
 		temp = temp->next;
@@ -330,8 +330,8 @@ void* ll_first(llist_t* const list){
  *
  * @param list - the list to retrieve the element from.
  * @return the element at the specified index. Returns 0 if the list is NULL,
- * 	if the index is less than zero (0), or if the index is greater than the
- * 	size of the list.
+ * 	if the index is less than 0, or if the index is greater than the size of
+ * 	the list.
  **/
 void* ll_last(llist_t* const list){
 	return ll_get(list, ll_size(list) - 1);
@@ -353,7 +353,7 @@ void* ll_last(llist_t* const list){
  * @return the index of the first occurrence of the specified element, or -1 if
  * 	the list is NULL or does not contain the specified element.
  **/
-int ll_indexof(llist_t* const list, void* const element){
+int ll_indexof(llist_t* const list, void* const elem){
 	__node_t *temp;
 	size_t num_bytes;
 	int count;
@@ -367,7 +367,7 @@ int ll_indexof(llist_t* const list, void* const element){
 	/* Look for first occurrence of element */
 	while(temp){
 		/* If the element is found */
-		if(memcmp(element, temp->element, num_bytes) == 0)
+		if(memcmp(elem, temp->element, num_bytes) == 0)
 			return count;
 
 		temp = temp->next;
@@ -477,7 +477,7 @@ void* ll_reml(llist_t* const list){
  * @param element - element to be stored at the specified index.
  * @return the element previously stored at the specified index. 
  **/
-void* ll_set(llist_t* const list, int index, void* const element){
+void* ll_set(llist_t* const list, int index, void* const elem){
 	__node_t *temp;
 	void *former;
 	int count;
@@ -494,7 +494,7 @@ void* ll_set(llist_t* const list, int index, void* const element){
 	while(temp){
 		if(count == index){
 			former = temp->element;
-			temp->element = element;
+			temp->element = elem;
 
 			return former;
 		}
@@ -526,6 +526,11 @@ void** ll_toarr(llist_t* const list){
 
 	if(!array) return NULL;
 
+	/**
+	 * TODO: has room for optimization
+	 * 
+	 * Get the element at each position
+	 **/
 	for(i = 0; i < count; i++)
 		array[i] = ll_get(list, i);
 	
@@ -585,8 +590,8 @@ ll_itr_t* ll_itr(llist_t* const list, int index){
  *
  * @param iterator - the iterator to destroy.
  **/
-void li_free(ll_itr_t* const iterator){
-	free(iterator);
+void li_free(ll_itr_t* const itr){
+	free(itr);
 }
 
 
@@ -598,11 +603,11 @@ void li_free(ll_itr_t* const iterator){
  * @return 1 if there exists more elements in the iterator. Returns 0 if the
  * 	iterator is NULL or does not have anymore elements.
  **/
-int li_hasnext(ll_itr_t* const iterator){
-	if(!iterator) return !EXIST;
+int li_hasnext(ll_itr_t* const itr){
+	if(!itr) return !EXIST;
 
 	/* There exists another element */
-	return (iterator->__next ? EXIST : !EXIST);
+	return (itr->__next ? EXIST : !EXIST);
 }
 
 
@@ -614,11 +619,11 @@ int li_hasnext(ll_itr_t* const iterator){
  * @return 1 if there exists a previous element in the iterator. Returns 0 if
  * 	the iterator is NULL of does not have any previous elements.
  **/
-int li_hasprev(ll_itr_t* const iterator){
-	if(!iterator) return !EXIST;
+int li_hasprev(ll_itr_t* const itr){
+	if(!itr) return !EXIST;
 
 	/* There exists a previous element */
-	return (iterator->__prev ? EXIST : !EXIST);
+	return (itr->__prev ? EXIST : !EXIST);
 }
 
 
@@ -629,16 +634,16 @@ int li_hasprev(ll_itr_t* const iterator){
  * @return the next element in the iterator. Returns NULL if the iterator is
  * 	NULL or there are no more elements in the iterator.
  **/
-void* li_next(ll_itr_t* const iterator){
+void* li_next(ll_itr_t* const itr){
 	__node_t *temp;
 	
-	if(!iterator) return NULL;
+	if(!itr) return NULL;
 
-	temp = iterator->__next;
+	temp = itr->__next;
 
 	/* Move iterator ahead */
 	if(temp){
-		iterator->__next = temp->next;
+		itr->__next = temp->next;
 		return temp->element;
 	}
 
@@ -654,16 +659,16 @@ void* li_next(ll_itr_t* const iterator){
  * @return the previous element in the iterator. Returns NULL if the iterator
  * 	is NULL or there are no previous elements in the iterator.
  **/
-void* li_prev(ll_itr_t* const iterator){
+void* li_prev(ll_itr_t* const itr){
 	__node_t *temp;
 
-	if(!iterator) return NULL;
+	if(!itr) return NULL;
 
-	temp = iterator->__prev;
+	temp = itr->__prev;
 
 	/* Move iterator backwards */
 	if(temp){
-		iterator->__prev = temp->prev;
+		itr->__prev = temp->prev;
 		return temp->element;
 	}
 
