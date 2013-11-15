@@ -510,6 +510,7 @@ void* ll_set(llist_t* const list, int index, void* const elem){
 
 /**
  * Creates and returns a pointer to an array representation of the list.
+ * Returns a pointer to an array on which free(...) may be called.
  *
  * @param list - the list to translate to an array.
  * @return a pointer to an array representation of the list.
