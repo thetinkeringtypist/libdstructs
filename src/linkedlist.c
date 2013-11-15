@@ -60,7 +60,7 @@ typedef struct __node_s{
  * A simulated constructor for a linkedlist.
  *
  * NOTE: This is a function that is not intended for use by the user. The user
- * should instead use the macro ll_create(type), where type is the type that
+ * should instead use the macro ll_init(type), where type is the type that
  * the user wishes to restrict the list to.
  *
  * @param __elem_size - the size of an element in the linkedlist.
