@@ -219,9 +219,12 @@ void ll_addl(llist_t* const list, void* const elem){
 
 
 /**
- * Removes all elements in the specified list. Frees all memory associated with
- * the underlying implementation of the linkedlist as well as the elements that
- * were placed into the list by the user.
+ * Attempts to remove all elements in the specified list. If the elements of
+ * the list are pointers to structures which have allocated memory associated
+ * with them, DO NOT use this function as memroy leaks will persist. This
+ * function frees all memory associated with the underlying implementation of
+ * the linkedlist as well as the elements that were placed into the list by the
+ * user (provided elements are pointers to simple structures).
  *
  * @param list - the list to clear.
  **/
