@@ -34,7 +34,8 @@ libdstructs: $(OBJS)
 linkedlist.o: include/linkedlist.h
 	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/linkedlist.c
 
-queue.o:
+queue.o: include/queue.h include/linkedlist.h
+	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/queue.c
 
 stack.o:
 
