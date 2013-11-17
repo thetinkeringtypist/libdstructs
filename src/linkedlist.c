@@ -115,7 +115,7 @@ int ll_size(llist_t* const list){
  *
  * @param list - the linkedlist to add the specified element to.
  * @param index - the index to insert the specified element.
- * @param element - the specified element to add to the list.
+ * @param elem - the specified element to add to the list.
  * @return 1 if the element is added to the list. Return 0 if the list is NULL,
  * 	or if the specified index is less than zero (0) or larger than the size
  * 	of the list.
@@ -141,7 +141,7 @@ int ll_add(llist_t* const list, int index, void* const elem){
 	new->next = NULL;
 	
 	/* Adding to empty list */
-	if(ll_size(list) == 0){
+	if(ll_empty(list)){
 		list->__first = new;
 		list->__last = new;
 		
@@ -200,7 +200,7 @@ int ll_add(llist_t* const list, int index, void* const elem){
  * Add a specified element to the front of this list.
  *
  * @param list - the list to add the specified element to.
- * @param element - the element to add to the list.
+ * @param elem - the element to add to the list.
  **/
 void ll_addf(llist_t* const list, void* const elem){
 	ll_add(list, 0, elem);
@@ -211,7 +211,7 @@ void ll_addf(llist_t* const list, void* const elem){
  * Add a specified element to the end of this list.
  *
  * @param list - the list to add the specified element to.
- * @param element - the element to add to the list.
+ * @param elem - the element to add to the list.
  **/
 void ll_addl(llist_t* const list, void* const elem){
 	ll_add(list, ll_size(list), elem);
@@ -235,7 +235,7 @@ void ll_clear(llist_t* const list){
 	 * While the list is not empty, remove
 	 * the first element in the list.
 	 **/
-	while(ll_size(list) != 0)
+	while(!ll_empty(list))
 		free(ll_rem(list, 0));
 }
 
@@ -250,7 +250,7 @@ void ll_clear(llist_t* const list){
  * differences.
  *
  * @param list - the list possibly containing the specified element.
- * @param element - the element possibly contained within the specified list.
+ * @param elem - the element possibly contained within the specified list.
  * @return 1 if the element exists in the specified list. Returns 0 otherwise
  * 	or if the list is NULL;
  **/
@@ -318,9 +318,8 @@ void* ll_get(llist_t* const list, int index){
  * list.
  *
  * @param list - the list to retrieve the element from.
- * @return the element at the specified index. Returns 0 if the list is NULL,
- * 	if the index is less than zero (0), or if the index is greater than the
- * 	size of the list.
+ * @return the first element in the list. Returns NULL if the list is NULL or
+ * 	empty.
  **/
 void* ll_first(llist_t* const list){
 	return ll_get(list, 0);
@@ -332,9 +331,8 @@ void* ll_first(llist_t* const list){
  * list.
  *
  * @param list - the list to retrieve the element from.
- * @return the element at the specified index. Returns 0 if the list is NULL,
- * 	if the index is less than 0, or if the index is greater than the size of
- * 	the list.
+ * @return the last element in the list. Returns NULL if the list is NULL or
+ * 	empty.
  **/
 void* ll_last(llist_t* const list){
 	return ll_get(list, ll_size(list) - 1);
@@ -403,7 +401,7 @@ void* ll_rem(llist_t* const list, int index){
 		return NULL;
 	
 	/* Removing from empty list */
-	if(ll_size(list) == 0) return NULL;
+	if(ll_empty(list)) return NULL;
 
 	/* Removing from front of list */
 	if(index == 0){

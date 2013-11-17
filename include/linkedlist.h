@@ -34,10 +34,11 @@ typedef struct __llist_s llist_t;
 typedef struct __ll_iter_s ll_itr_t;
 
 
-/**
- * Wrapper macro for __ll_init(size_t __alloc_size).
- **/
+/* Wrapper macro for __ll_init(size_t __alloc_size) */
 #define ll_init(type) (__ll_init(sizeof(type)))
+
+/* Semantic macro for determining if a list is empty */
+#define ll_empty(L) (!ll_first(L))
 
 
 /** FUNCTION PROTOTYPES **/
