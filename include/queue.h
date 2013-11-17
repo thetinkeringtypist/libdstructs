@@ -29,7 +29,7 @@ typedef struct que_s que_t;
 
 /* Wrapper macro for __q_init(...) */
 #define q_init(type) (__q_init(sizeof(type)))
-#define q_empty(q) (!q_head(q))
+#define q_empty(Q) (!q_head(Q))
 
 extern que_t*	__q_init	(size_t __elem_size);
 extern void		q_free	(que_t* const q);
