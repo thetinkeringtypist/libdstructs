@@ -3,7 +3,6 @@ TODO
 
 Structures
 ----------
-* Queue
 * Priority-Queue
 * Stack
 * Vector
