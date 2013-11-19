@@ -17,7 +17,7 @@
  * along with this program.  If not, see {http://www.gnu.org/licenses/}.
  **/
 #ifndef __LIBDSTRUCTS_LINKEDLIST_H__
-#define __LIBDSTRUCTS_LINKEDLIST_H__	/* Guard against multiple inclusion */
+#define __LIBDSTRUCTS_LINKEDLIST_H__   /* Guard against multiple inclusion */
 
 
 /**
@@ -47,41 +47,41 @@ typedef struct __ll_iter_s ll_itr_t;
  * NOTE: __ll_init(...) is not intended for use by the user. Use the wrapper
  * macro ll_init(...) instead.
  **/
-extern	llist_t*				__ll_init	(size_t __elem_size);
-extern	void					ll_free		(llist_t* const list);
+extern   llist_t*          __ll_init   (size_t __elem_size);
+extern   void              ll_free     (llist_t* const list);
 
-extern	int	ll_size		(llist_t* const list);
+extern   int   ll_size     (llist_t* const list);
 
-extern	void	ll_addf		(llist_t* const list, void* const elem);
-extern	void	ll_addl		(llist_t* const list, void* const elem);
-extern	int	ll_add		(llist_t* const list, int index,
-										void* const elem);
+extern   void  ll_addf     (llist_t* const list, void* const elem);
+extern   void  ll_addl     (llist_t* const list, void* const elem);
+extern   int   ll_add      (llist_t* const list, int index,
+                            void* const elem);
 
-extern	void	ll_clear		(llist_t* const list);
-extern	int	ll_contains (llist_t* const list, void* const elem);
+extern   void  ll_clear    (llist_t* const list);
+extern   int   ll_contains (llist_t* const list, void* const elem);
 
-extern	void*	ll_get		(llist_t* const list, int index);
-extern	void*	ll_first		(llist_t* const list);
-extern	void*	ll_last		(llist_t* const list);
+extern   void* ll_get      (llist_t* const list, int index);
+extern   void* ll_first    (llist_t* const list);
+extern   void* ll_last     (llist_t* const list);
 
-extern	int	ll_indexof	(llist_t* const list, void* const elem);
+extern   int   ll_indexof  (llist_t* const list, void* const elem);
 
-extern	void*	ll_rem		(llist_t* const list, int index);
-extern	void*	ll_remf		(llist_t* const list);
-extern	void* ll_reml		(llist_t* const list);
-extern	void*	ll_set		(llist_t* const list, int index, void* const elem);
+extern   void* ll_rem      (llist_t* const list, int index);
+extern   void* ll_remf     (llist_t* const list);
+extern   void* ll_reml     (llist_t* const list);
+extern   void* ll_set      (llist_t* const list, int index, void* const elem);
 
-extern	void**	ll_toarr	(llist_t* const list);
+extern   void**   ll_toarr (llist_t* const list);
 
 
 /* Linkedlist Iterator Functions */
-extern	ll_itr_t*	ll_itr		(llist_t* const list, int index);
-extern	void			li_free		(ll_itr_t* const itr);
+extern   ll_itr_t*   ll_itr      (llist_t* const list, int index);
+extern   void        li_free     (ll_itr_t* const itr);
 
-extern	int			li_hasnext	(ll_itr_t* const itr);
-extern	int			li_hasprev	(ll_itr_t* const itr);
-extern	void*			li_next		(ll_itr_t* const itr);
-extern	void*			li_prev		(ll_itr_t* const itr);
+extern   int         li_hasnext  (ll_itr_t* const itr);
+extern   int         li_hasprev  (ll_itr_t* const itr);
+extern   void*       li_next     (ll_itr_t* const itr);
+extern   void*       li_prev     (ll_itr_t* const itr);
 
-#endif	/* __LIBDSTRUCTS_LINKEDLIST_H__ */
+#endif   /* __LIBDSTRUCTS_LINKEDLIST_H__ */
 

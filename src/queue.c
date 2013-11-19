@@ -25,8 +25,8 @@
 /**
  * Internal definition of a queue. Built upon a linkedlist.
  **/
-struct que_s{
-	llist_t *__list;
+struct que_s {
+   llist_t *__list;
 };
 
 
@@ -39,23 +39,23 @@ struct que_s{
  *
  * @param __elem_size - the size of an element in the queue.
  * @return a pointer to an empty queue. Returns a NULL pointer upon allocation
- * 	error.
+ *    error.
  **/
-que_t* __q_init(size_t __elem_size){
-	que_t *queue;
+que_t* __q_init(size_t __elem_size) {
+   que_t *queue;
 
-	queue = malloc(sizeof(que_t));
+   queue = malloc(sizeof(que_t));
 
-	if(!queue) return NULL;
+   if(!queue) return NULL;
 
-	queue->__list = __ll_init(__elem_size);
-	
-	if(!queue->__list){
-		free(queue);
-		return NULL;
-	}
+   queue->__list = __ll_init(__elem_size);
 
-	return queue;
+   if(!queue->__list) {
+      free(queue);
+      return NULL;
+   }
+
+   return queue;
 }
 
 
@@ -64,13 +64,13 @@ que_t* __q_init(size_t __elem_size){
  *
  * @param q - the queue to destroy.
  **/
-void q_free(que_t* const q){
-	if(!q) return;
+void q_free(que_t* const q) {
+   if(!q) return;
 
-	ll_free(q->__list);
-	free(q);
+   ll_free(q->__list);
+   free(q);
 
-	return;
+   return;
 }
 
 
@@ -79,10 +79,10 @@ void q_free(que_t* const q){
  *
  * @param q - the queue to retrieve the size of.
  * @return the number of elements in the queue. Returns -1 if the queue is
- * 	NULL.
+ *    NULL.
  **/
-int q_size(que_t* const q){
-	return (q ? ll_size(q->__list) : -1);
+int q_size(que_t* const q) {
+   return (q ? ll_size(q->__list) : -1);
 }
 
 
@@ -93,10 +93,10 @@ int q_size(que_t* const q){
  *
  * @param q - the queue to retrieve the element from.
  * @return the next element to be returned by a call to q_deq(...). Returns
- * 	NULL if the queue is NULL.
+ *    NULL if the queue is NULL.
  **/
-void* q_head(que_t* const q){
-	return (q ? ll_first(q->__list) : NULL);
+void* q_head(que_t* const q) {
+   return (q ? ll_first(q->__list) : NULL);
 }
 
 
@@ -107,10 +107,10 @@ void* q_head(que_t* const q){
  *
  * @param q - the queue to retrieve the element from.
  * @return the next element to be returned by a call to q_enq(...). Returns
- * 	NULL if the queue is NULL.
+ *    NULL if the queue is NULL.
  **/
-void* q_tail(que_t* const q){
-	return (q ? ll_last(q->__list) : NULL);
+void* q_tail(que_t* const q) {
+   return (q ? ll_last(q->__list) : NULL);
 }
 
 
@@ -121,10 +121,10 @@ void* q_tail(que_t* const q){
  * @param q - the queue to add the specified element to.
  * @param elem - the element to add to the queue.
  **/
-void q_enq(que_t* const q, void* const elem){
-	if(!q || !elem) return;
+void q_enq(que_t* const q, void* const elem) {
+   if(!q || !elem) return;
 
-	ll_addl(q->__list, elem);
+   ll_addl(q->__list, elem);
 }
 
 
@@ -134,8 +134,8 @@ void q_enq(que_t* const q, void* const elem){
  * @param q - the queue to retrieve the element from.
  * @return the head of the queue. Returns NULL if the queue is empty or NULL.
  **/
-void* q_deq(que_t* const q){
-	return (q ? ll_remf(q->__list) : NULL);
+void* q_deq(que_t* const q) {
+   return (q ? ll_remf(q->__list) : NULL);
 }
 
 
@@ -145,9 +145,9 @@ void* q_deq(que_t* const q){
  *
  * @param q - the queue to translate to an array.
  * @return a pointer to an array representation of the queue. Returns NULL if
- * 	the queue is NULL.
+ *    the queue is NULL.
  **/
-void** q_toarr(que_t* const q){
-	return (q ? ll_toarr(q->__list) : NULL);
+void** q_toarr(que_t* const q) {
+   return (q ? ll_toarr(q->__list) : NULL);
 }
 

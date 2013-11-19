@@ -21,9 +21,13 @@
 
 CC = gcc
 CFLAGS = -ansi -Wall -m32 -c
+SRCS = linkedlist.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
+	priority-queue.c set.c hashtable.c binary-tree.c binary-search-tree.c \
+	heap.c n-way-search-tree.c
 OBJS = linkedlist.o queue.o stack.o vector.o matrix.o sparse-matrix.o \
 	priority-queue.o set.o hashtable.o binary-tree.o binary-search-tree.o \
 	heap.o n-way-search-tree.o
+HEADS = *.h
 INCL_DIR = -Iinclude
 
 all: libdstructs
@@ -60,10 +64,14 @@ heap.o:
 n-way-search-tree.o:
 
 
+style:
+	astyle -r -s3 -a -S --indent-preprocessor --convert-tabs "src/*.c" \
+	"include/*.h"
+
 clean:
 	rm -f obj/$(OBJS) lib/*.a lib/*.so
 
-dist: clean
+dist: clean style
 	tar -cvzf libdstructs.tar ../libdstructs --exclude-backups --exclude-vcs \
 		--exclude='libdstructs.tar'
 
