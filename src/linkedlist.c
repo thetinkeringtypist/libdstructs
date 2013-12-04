@@ -407,7 +407,10 @@ void* ll_rem(llist_t* const list, int index) {
    if(index == 0) {
       target = list->__first;
       temp = target->next;
-      temp->prev = NULL;
+
+		/* If there are more elements in the list */
+		if(temp)
+      	temp->prev = NULL;
       list->__first = temp;
 
       /* There was only one element in the list to remove */
