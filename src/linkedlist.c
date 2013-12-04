@@ -427,7 +427,10 @@ void* ll_rem(llist_t* const list, int index) {
       while(temp->next) {
          if(count == index) {
             target = temp->next;
-            target->next->prev = temp;
+
+				/* Target not at end of list */
+				if(target->next)
+            	target->next->prev = temp;
             temp->next = target->next;
 
             break;
