@@ -385,28 +385,28 @@ int ll_indexof(llist_t* const list, void* const elem) {
  *
  * @param list - the list to apply an operation over.
  * @param funct - the function to apply over the specified list, where the
- * 	first argument to the function is an element in the list and the second
- * 	argument is an argument to be supplied to the function for operational
- * 	purposes.
+ *    first argument to the function is an element in the list and the second
+ *    argument is an argument to be supplied to the function for operational
+ *    purposes.
  * @param arg - the argument to be supplied to the function that will be
- * 	applied over the list.
+ *    applied over the list.
  **/
 void ll_apply(llist_t* const list, void (*funct)(void* const, void* const),
-				  void* const arg){
-	__node_t *temp;
+              void* const arg) {
+   __node_t *temp;
 
-	if(!list) return;
+   if(!list) return;
 
-	temp = list->__first;
+   temp = list->__first;
 
-	/* For each element in the list */
-	while(temp){
-		(funct)(temp->element, arg);
+   /* For each element in the list */
+   while(temp) {
+      (funct)(temp->element, arg);
 
-		temp = temp->next;
-	}
+      temp = temp->next;
+   }
 
-	return;
+   return;
 }
 
 
@@ -438,9 +438,9 @@ void* ll_rem(llist_t* const list, int index) {
       target = list->__first;
       temp = target->next;
 
-		/* If there are more elements in the list */
-		if(temp)
-      	temp->prev = NULL;
+      /* If there are more elements in the list */
+      if(temp)
+         temp->prev = NULL;
       list->__first = temp;
 
       /* There was only one element in the list to remove */
@@ -458,9 +458,9 @@ void* ll_rem(llist_t* const list, int index) {
          if(count == index) {
             target = temp->next;
 
-				/* Target not at end of list */
-				if(target->next)
-            	target->next->prev = temp;
+            /* Target not at end of list */
+            if(target->next)
+               target->next->prev = temp;
             temp->next = target->next;
 
             break;
