@@ -65,6 +65,9 @@ extern   void* ll_first    (llist_t* const list);
 extern   void* ll_last     (llist_t* const list);
 
 extern   int   ll_indexof  (llist_t* const list, void* const elem);
+extern	void	ll_apply		(llist_t* const list,
+									 void (*funct)(void* const, void* const),
+									 void* const arg);
 
 extern   void* ll_rem      (llist_t* const list, int index);
 extern   void* ll_remf     (llist_t* const list);

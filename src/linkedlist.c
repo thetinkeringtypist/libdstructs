@@ -381,6 +381,36 @@ int ll_indexof(llist_t* const list, void* const elem) {
 
 
 /**
+ * Apply a function over all the elements in a list.
+ *
+ * @param list - the list to apply an operation over.
+ * @param funct - the function to apply over the specified list, where the
+ * 	first argument to the function is an element in the list and the second
+ * 	argument is an argument to be supplied to the function for operational
+ * 	purposes.
+ * @param arg - the argument to be supplied to the function that will be
+ * 	applied over the list.
+ **/
+void ll_apply(llist_t* const list, void (*funct)(void* const, void* const),
+				  void* const arg){
+	__node_t *temp;
+
+	if(!list) return;
+
+	temp = list->__first;
+
+	/* For each element in the list */
+	while(temp){
+		(funct)(temp->element, arg);
+
+		temp = temp->next;
+	}
+
+	return;
+}
+
+
+/**
  * Removes the element at the specified index in the specified list. Shifts
  * remaining elements left one position (decrementing indices).
  *
