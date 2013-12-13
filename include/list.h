@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see {http://www.gnu.org/licenses/}.
  **/
-#ifndef __LIBDSTRUCTS_LINKEDLIST_H__
-#define __LIBDSTRUCTS_LINKEDLIST_H__   /* Guard against multiple inclusion */
+#ifndef __LIBDSTRUCTS_LIST_H__
+#define __LIBDSTRUCTS_LIST_H__   /* Guard against multiple inclusion */
 
 
 /**
@@ -86,5 +86,5 @@ extern   int         li_hasprev  (ll_itr_t* const itr);
 extern   void*       li_next     (ll_itr_t* const itr);
 extern   void*       li_prev     (ll_itr_t* const itr);
 
-#endif   /* __LIBDSTRUCTS_LINKEDLIST_H__ */
+#endif   /* __LIBDSTRUCTS_LIST_H__ */
 

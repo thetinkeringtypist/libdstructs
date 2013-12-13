@@ -21,10 +21,10 @@
 
 CC = gcc
 CFLAGS = -ansi -Wall -m32 -c
-SRCS = linkedlist.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
+SRCS = list.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
 	priority-queue.c set.c hashtable.c binary-tree.c binary-search-tree.c \
 	heap.c n-way-search-tree.c
-OBJS = linkedlist.o queue.o stack.o vector.o matrix.o sparse-matrix.o \
+OBJS = list.o queue.o stack.o vector.o matrix.o sparse-matrix.o \
 	priority-queue.o set.o hashtable.o binary-tree.o binary-search-tree.o \
 	heap.o n-way-search-tree.o
 HEADS = *.h
@@ -35,10 +35,10 @@ all: libdstructs
 libdstructs: $(OBJS)
 	
 
-linkedlist.o: include/linkedlist.h
-	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/linkedlist.c
+list.o: include/list.h
+	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/list.c
 
-queue.o: include/queue.h include/linkedlist.h
+queue.o: include/queue.h include/list.h
 	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/queue.c
 
 stack.o:

@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see {http://www.gnu.org/licenses/}.
  **/
-#include <stdlib.h>        /* For malloc(...), free(...) */
-#include <string.h>        /* For memcmp(...) */
-#include "linkedlist.h"    /* For llist_t, ll_itr_t */
+#include <stdlib.h>     /* For malloc(...), free(...) */
+#include <string.h>     /* For memcmp(...) */
+#include "list.h"       /* For llist_t, ll_itr_t */
 
 
 #define ADDED 1
