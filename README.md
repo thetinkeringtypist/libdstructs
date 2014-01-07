@@ -33,6 +33,8 @@ are implemented in an opaque manner. This means that the data types cannot be
 allocated on the stack. Pointers must be used instead and must be accessed
 though function calls explicitly. For example:
 
+	#include <dstructs/list.h>
+
 	void example(void){
 		llist_t *list;	/* Pointer on stack */
 
@@ -48,6 +50,8 @@ though function calls explicitly. For example:
 is how you would create and destroy a linkedlist whose elements are of type
 int. The following is an example of something that cannot be done:
 
+	#include <dstructs/list.h>
+
 	void example(void){
 		llist_t list;	/* Allocation on the stack */
 
@@ -60,6 +64,8 @@ The compiler cannot determine how much space on the stack to make for the
 linkedlist since the data type is opaque. All of that information is hidden
 inside of the appropriate translation unit. Another example of something that
 cannot be done is dereferencing pointers of these opaque data types:
+
+	#include <dstructs/list.h>
 
 	void example(void){
 		llist_t *list;
@@ -80,7 +86,28 @@ As a result, the user will often see the error: dereferencing incomplete type.
 
 Installation
 ------------
-Coming soon.
+Installation is simple. The following will create both static and shared
+versions of `libdstructs`. The following will build and install them for you:
+
+	./make
+	./make install
+
+You may need up update the linker's runtime bindings in order to use them. To
+do this, perform the following:
+
+	./ldconfig
+
+
+Use
+---
+After installing the libraries, they may be used either statically or
+dynamically. To use the dynamic version of the library, perform the following:
+
+	./gcc  ...  -ldstructs
+
+To use the static version of the library, perform the following:
+
+	./gcc  ...  --static -ldstructs
 
 
 Notes
