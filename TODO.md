@@ -4,7 +4,6 @@ TODO
 Structures
 ----------
 * Priority-Queue
-* Stack
 * Vector
 * Matrix
 * Sparse-Matrix
