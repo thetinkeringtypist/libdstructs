@@ -29,12 +29,13 @@ OBJS = list.o queue.o stack.o vector.o matrix.o sparse-matrix.o \
 	heap.o n-way-search-tree.o
 HEADS = *.h
 INCL_DIR = -Iinclude
+DSTRUCTS = libdstructs
 
 all: libdstructs
 
 libdstructs: $(OBJS)
-	gcc -shared -o libdstructs.so $(INCL_DIR) obj/*.o
-	ar -cvr libdstructs.a obj/*.o
+	gcc -shared -o $(DSTRUCTS).so $(INCL_DIR) obj/*.o
+	ar -cvr $(DSTRUCTS).a obj/*.o
 
 list.o: include/list.h
 	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/list.c
@@ -71,11 +72,19 @@ style:
 	"include/*.h"
 
 install:
-	cp libdstructs.so /usr/local/lib
-	cp libdstructs.a /usr/local/lib
+	mkdir /usr/local/include/dstructs
+	cp include/*.h /usr/local/include/dstructs
+	cp $(DSTRUCTS).so /usr/local/lib
+	cp $(DSTRUCTS).a  /usr/local/lib
+
+uninstall:
+	rm /usr/local/include/dstructs/*.h
+	rmdir /usr/local/include/dstructs
+	rm /usr/local/lib/$(DSTRUCTS).so
+	rm /usr/local/lib/$(DSTRUCTS).a
 
 clean:
-	rm -f obj/$(OBJS) lib/*.a lib/*.so
+	rm -f obj/$(OBJS) $(DSTRUCTS).*
 
 dist: clean style
 	tar -cvzf libdstructs.tar ../libdstructs --exclude-backups --exclude-vcs \
