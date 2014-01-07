@@ -1,7 +1,7 @@
 /**
  * libdstructs: a simple, generic data structures library written in ANSI C.
  *
- * Copyright (C) 2013 Evan Bezeredi <bezeredi.dev@gmail.com>
+ * Copyright (C) 2013, 2014 Evan Bezeredi <bezeredi.dev@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,138 +16,127 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see {http://www.gnu.org/licenses/}.
  **/
-#include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
+#include "stack.h"
 #include "list.h"
 
 
 /**
- * Internal definition of a queue. Built upon a linkedlist.
+ * Stack public, opaque data type. Contents only accessable through function
+ * calls.
  **/
-struct que_s {
+struct stack_s {
    llist_t *__list;
 };
 
 
+/* Wrapper macro for __s_init(...) */
+#define s_init(type) (__s_init(sizeof(type)))
+#define s_empty(S) (!s_top(S))
+
+
 /**
- * A simulated constructor for a queue.
+ * A simulated constructor for a stack.
  *
  * NOTE: This is a function that is not intended for use by the user. The user
- * should instead use the macro q_init(type), where type is the type that
+ * should instead use the macro s_init(type), where type is the type that
  * the user wishes to restrict the list to.
  *
- * @param __elem_size - the size of an element in the queue.
- * @return a pointer to an empty queue. Returns a NULL pointer upon allocation
+ * @param __elem_size - the size of an element in the stack.
+ * @return a pointer to an empty stack. Returns a NULL pointer upon allocation
  *    error.
  **/
-que_t* __q_init(size_t __elem_size) {
-   que_t *queue;
+stack_t* __s_init(size_t __elem_size) {
+   stack_t *stack;
 
-   queue = malloc(sizeof(que_t));
+   stack = malloc(sizeof(stack_t));
 
-   if(!queue) return NULL;
+   if(!stack) return NULL;
 
-   queue->__list = __ll_init(__elem_size);
+   stack->__list = __ll_init(__elem_size);
 
-   if(!queue->__list) {
-      free(queue);
+   if(!stack->__list) {
+      free(stack);
       return NULL;
    }
 
-   return queue;
+   return stack;
 }
 
 
 /**
- * A simulated destructor for a queue.
+ * A simulated destructor for a stack.
  *
- * @param q - the queue to destroy.
+ * @param s - the stack to destroy.
  **/
-void q_free(que_t* const q) {
-   if(!q) return;
+void s_free(stack_t* const s) {
+   if(!s) return;
 
-   ll_free(q->__list);
-   free(q);
-
-   return;
+   ll_free(s->__list);
+   free(s);
 }
 
 
 /**
- * Retrieve the size of a queue.
+ * Retrieve the size of a stack.
  *
- * @param q - the queue to retrieve the size of.
- * @return the number of elements in the queue. Returns -1 if the queue is
+ * @param s - the stack to retrieve the size of.
+ * @return the number of elements in the stack. Returns -1 if the stack is
  *    NULL.
  **/
-int q_size(que_t* const q) {
-   return (q ? ll_size(q->__list) : -1);
+int s_size(stack_t* const s) {
+   return (s ? ll_size(s->__list) : -1);
 }
 
 
 /**
- * Retrieves (but does not remove) the next item to be removed from the queue.
+ * Retrieves (but does not remove) the next item to be removed from the stack.
  * That is, this function retrieves the next item that would be returned by the
- * next sucessful call to q_deq(...).
+ * next sucessful call to s_pop(...).
  *
- * @param q - the queue to retrieve the element from.
- * @return the next element to be returned by a call to q_deq(...). Returns
- *    NULL if the queue is NULL.
+ * @param s - the stack to retrieve the element from.
+ * @return the next element to be returned by a call to s_pop(...). Returns
+ *    NULL if the stack is NULL.
  **/
-void* q_head(que_t* const q) {
-   return (q ? ll_first(q->__list) : NULL);
+void* s_top(stack_t* const s) {
+   return (s ? ll_first(s->__list) : NULL);
 }
 
 
 /**
- * Retrieves (but does not remove) the item most recently added to the queue.
- * That is, this function retrieves the next item that would be returned by the
- * most recent sucessful call of q_enq(...).
+ * Add a specified element to the stack. The item to be added will be added to
+ * the top of the stack.
  *
- * @param q - the queue to retrieve the element from.
- * @return the next element to be returned by a call to q_enq(...). Returns
- *    NULL if the queue is NULL.
+ * @param s - the stack to add the specified element to.
+ * @param elem - the element to add to the stack.
  **/
-void* q_tail(que_t* const q) {
-   return (q ? ll_last(q->__list) : NULL);
+void s_push(stack_t* const s, void* const elem) {
+   if(!s || !elem) return;
+
+   ll_addf(s->__list, elem);
 }
 
 
 /**
- * Add a specified element to the queue. The item to be added will be added to
- * the end of the queue.
+ * Removes and returns the top of the stack.
  *
- * @param q - the queue to add the specified element to.
- * @param elem - the element to add to the queue.
+ * @param s - the stack to retrieve the element from.
+ * @return the top of the stack. Returns NULL if the stack is empty or NULL.
  **/
-void q_enq(que_t* const q, void* const elem) {
-   if(!q || !elem) return;
-
-   ll_addl(q->__list, elem);
+void* s_pop(stack_t* const s) {
+   return (s ? ll_remf(s->__list) : NULL);
 }
 
 
 /**
- * Removes and returns the head of the queue.
- *
- * @param q - the queue to retrieve the element from.
- * @return the head of the queue. Returns NULL if the queue is empty or NULL.
- **/
-void* q_deq(que_t* const q) {
-   return (q ? ll_remf(q->__list) : NULL);
-}
-
-
-/**
- * Creates and returns a pointer to an array representation of the queue,
+ * Creates and returns a pointer to an array representation of the stack,
  * which free(...) may be called on.
  *
- * @param q - the queue to translate to an array.
- * @return a pointer to an array representation of the queue. Returns NULL if
- *    the queue is NULL.
+ * @param s - the stack to translate to an array.
+ * @return a pointer to an array representation of the stack. Returns NULL if
+ *    the stack is NULL.
  **/
-void** q_toarr(que_t* const q) {
-   return (q ? ll_toarr(q->__list) : NULL);
+void** s_toarr(stack_t* const s) {
+   return (s ? ll_toarr(s->__list) : NULL);
 }
 

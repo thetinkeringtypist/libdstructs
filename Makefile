@@ -20,7 +20,7 @@
 #
 
 CC = gcc
-CFLAGS = -ansi -Wall -m32 -c
+CFLAGS = -ansi -Wall -m32 -c -fpic
 SRCS = list.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
 	priority-queue.c set.c hashtable.c binary-tree.c binary-search-tree.c \
 	heap.c n-way-search-tree.c
@@ -33,7 +33,8 @@ INCL_DIR = -Iinclude
 all: libdstructs
 
 libdstructs: $(OBJS)
-	
+	gcc -shared -o libdstructs.so $(INCL_DIR) obj/*.o
+	ar -cvr libdstructs.a obj/*.o
 
 list.o: include/list.h
 	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/list.c
@@ -41,7 +42,8 @@ list.o: include/list.h
 queue.o: include/queue.h include/list.h
 	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/queue.c
 
-stack.o:
+stack.o: include/stack.h include/list.h
+	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/stack.c
 
 vector.o:
 
@@ -67,6 +69,10 @@ n-way-search-tree.o:
 style:
 	astyle -r -s3 -a -S --indent-preprocessor --convert-tabs "src/*.c" \
 	"include/*.h"
+
+install:
+	cp libdstructs.so /usr/local/lib
+	cp libdstructs.a /usr/local/lib
 
 clean:
 	rm -f obj/$(OBJS) lib/*.a lib/*.so
