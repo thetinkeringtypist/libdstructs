@@ -97,6 +97,9 @@ do this, perform the following:
 
 	./ldconfig
 
+`libdstructs` libraries are installed under /usr/local/lib and headers are
+installed under /usr/local/include in a folder called `dstructs`.
+
 
 Use
 ---
