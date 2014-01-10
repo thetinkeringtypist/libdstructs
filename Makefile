@@ -20,7 +20,7 @@
 #
 
 CC = gcc
-CFLAGS = -ansi -Wall -m32 -c -fpic
+CFLAGS = -ansi -Wall -m32 -O2 -c -fpic
 SRCS = list.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
 	priority-queue.c set.c hashtable.c binary-tree.c binary-search-tree.c \
 	heap.c n-way-search-tree.c
