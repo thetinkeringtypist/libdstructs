@@ -46,7 +46,8 @@ queue.o: include/queue.h include/list.h
 stack.o: include/stack.h include/list.h
 	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/stack.c
 
-vector.o:
+vector.o: include/vector.h
+	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/vector.c
 
 matrix.o:
 
