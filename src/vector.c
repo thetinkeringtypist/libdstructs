@@ -33,10 +33,10 @@ static void __v_expand(vect_t* const v);
  * Internal vector definition.
  **/
 struct __vect_s {
-	int **__elements;
+   int **__elements;
    size_t __elem_size;
    int __cap;
-	int __size;
+   int __size;
 };
 
 
@@ -44,8 +44,8 @@ struct __vect_s {
  * Internal vector iterator definition.
  **/
 struct __v_itr_s {
-	vect_t *vector;
-	int pos;
+   vect_t *vector;
+   int pos;
 };
 
 
@@ -60,27 +60,27 @@ struct __v_itr_s {
  *
  * @param __elem_size - the size of an element in the vector.
  * @return a pointer to an empty vector. Returns a NULL pointer upon allocation
- * 	error.
+ *    error.
  **/
 vect_t* __v_init(size_t __elem_size) {
-	vect_t *vector;
+   vect_t *vector;
 
-	vector = malloc(sizeof(vect_t));
+   vector = malloc(sizeof(vect_t));
 
-	if(!vector) return NULL;
+   if(!vector) return NULL;
 
-	vector->__elements = calloc(INIT_SIZE, sizeof(void*));
+   vector->__elements = calloc(INIT_SIZE, sizeof(void*));
 
-	if(!vector->__elements){
-		free(vector);
-		return NULL;
-	}
+   if(!vector->__elements) {
+      free(vector);
+      return NULL;
+   }
 
-	vector->__elem_size = __elem_size;
-	vector->__cap = INIT_SIZE;
-	vector->__size = 0;
+   vector->__elem_size = __elem_size;
+   vector->__cap = INIT_SIZE;
+   vector->__size = 0;
 
-	return vector;
+   return vector;
 }
 
 
@@ -92,9 +92,9 @@ vect_t* __v_init(size_t __elem_size) {
 void v_free(vect_t* const v) {
    if(!v) return;
 
-   v_clear(v);				/* Remove elements in vector */
-	free(v->__elements);
-	free(v);
+   v_clear(v);          /* Remove elements in vector */
+   free(v->__elements);
+   free(v);
 }
 
 
@@ -115,8 +115,8 @@ int v_size(vect_t* const v) {
  * @param v - the vector to retrieve the capacity of.
  * @return the capacity of the vector. Returns -1 if the vector is NULL.
  **/
-int v_cap(vect_t* const v){
-	return (v ? v->__cap : -1);
+int v_cap(vect_t* const v) {
+   return (v ? v->__cap : -1);
 }
 
 
@@ -126,11 +126,11 @@ int v_cap(vect_t* const v){
  *
  * @param v - the vector to expand.
  **/
-static void __v_expand(vect_t* const v){
-	v->__cap <<= 1;
-	v->__cap++;
+static void __v_expand(vect_t* const v) {
+   v->__cap <<= 1;
+   v->__cap++;
 
-	v->__elements = realloc(v->__elements, v->__cap * sizeof(void*));
+   v->__elements = realloc(v->__elements, v->__cap * sizeof(void*));
 }
 
 
@@ -142,29 +142,29 @@ static void __v_expand(vect_t* const v){
  * @param index - the index to insert the specified element.
  * @param elem - the specified element to add to the vector.
  * @return 1 if the element is added to the vector. Return 0 if the vector is
- * 	NULL, or if the specified index is less than zero (0) or larger than the
- * 	size of the vector.
+ *    NULL, or if the specified index is less than zero (0) or larger than the
+ *    size of the vector.
  **/
 int v_add(vect_t* const v, int index, void* const elem) {
    int i, size;
 
    if(!v) return !ADDED;
 
-	if(index < 0 || index > v->__size)
+   if(index < 0 || index > v->__size)
       return !ADDED;
- 
-	size = ++v->__size;
 
-	if(size == v->__cap)
-		__v_expand(v);
+   size = ++v->__size;
 
-	/* Move elements right one position */
-	for(i = size; i > index; i--)
-		v->__elements[i] = v->__elements[i - 1];
-	
-	v->__elements[index] = elem;
+   if(size == v->__cap)
+      __v_expand(v);
 
- 	return ADDED;
+   /* Move elements right one position */
+   for(i = size; i > index; i--)
+      v->__elements[i] = v->__elements[i - 1];
+
+   v->__elements[index] = elem;
+
+   return ADDED;
 }
 
 
@@ -186,7 +186,7 @@ void v_addf(vect_t* const v, void* const elem) {
  * @param elem - the element to add to the vector.
  **/
 void v_addl(vect_t* const v, void* const elem) {
-	if(!v) return;
+   if(!v) return;
 
    v_add(v, v->__size, elem);
 }
@@ -213,17 +213,17 @@ void v_clear(vect_t* const v) {
  **/
 int v_contains(vect_t* const v, void* const elem) {
    size_t num_bytes;
-	int i, size;
+   int i, size;
 
    if(!v) return !EXIST;
 
    num_bytes = v->__elem_size;
-	size = v->__size;
+   size = v->__size;
 
    /* Loop through to find the element */
-	for(i = 0; i < size; i++)
-		if(memcmp(elem, v->__elements[i], num_bytes) == 0)
-			return EXIST;
+   for(i = 0; i < size; i++)
+      if(memcmp(elem, v->__elements[i], num_bytes) == 0)
+         return EXIST;
 
    /* Element does not exist */
    return !EXIST;
@@ -246,7 +246,7 @@ void* v_get(vect_t* const v, int index) {
    if(index < 0 || index >= v->__size)
       return NULL;
 
-	return v->__elements[index];
+   return v->__elements[index];
 }
 
 
@@ -255,7 +255,7 @@ void* v_get(vect_t* const v, int index) {
  *
  * @param v - the vector to retrieve the element from.
  * @return the first element in the vector. Returns NULL if the vector is NULL
- * 	or empty.
+ *    or empty.
  **/
 void* v_first(vect_t* const v) {
    return v_get(v, 0);
@@ -267,10 +267,10 @@ void* v_first(vect_t* const v) {
  *
  * @param v - the vector to retrieve the element from.
  * @return the last element in the vector. Returns NULL if the vector is NULL
- * 	or empty.
+ *    or empty.
  **/
 void* v_last(vect_t* const v) {
-	if(!v) return NULL;
+   if(!v) return NULL;
 
    return v_get(v, v->__size - 1);
 }
@@ -287,17 +287,17 @@ void* v_last(vect_t* const v) {
  **/
 int v_indexof(vect_t* const v, void* const elem) {
    size_t num_bytes;
-	int i, size;
+   int i, size;
 
    if(!v) return -1;
 
    num_bytes = v->__elem_size;
-	size = v->__size;
+   size = v->__size;
 
-	/* Look for first occurance */
-	for(i = 0; i < size; i++)
-		if(memcmp(elem, v->__elements[i], num_bytes) == 0)
-			return i;
+   /* Look for first occurance */
+   for(i = 0; i < size; i++)
+      if(memcmp(elem, v->__elements[i], num_bytes) == 0)
+         return i;
 
    /* Element not found */
    return -1;
@@ -311,19 +311,19 @@ int v_indexof(vect_t* const v, void* const elem) {
  * @param funct - the function to apply over the specified vector, where the
  *    argument to the function is an element in the vector.
  **/
-void v_apply(vect_t* const v, void (*funct)(void* const)){
-	int i, size;
+void v_apply(vect_t* const v, void (*funct)(void* const)) {
+   int i, size;
 
    if(!v) return;
 
-	size = v->__size;
+   size = v->__size;
 
    /* For each element in the list */
-	for(i = 0; i < size; i++)
+   for(i = 0; i < size; i++)
       (funct)(v->__elements[i]);
 
-	if(funct == free)
-		v->__size = 0;
+   if(funct == free)
+      v->__size = 0;
 }
 
 
@@ -334,12 +334,12 @@ void v_apply(vect_t* const v, void (*funct)(void* const)){
  * @param v - the vector to remove the specified element from.
  * @param index - the index of the element to be removed.
  * @return 1 if the vector contained the specified element. Returns 0 if the
- * 	vector is NULL or the index is less than zero (0) or the index is greater
- * 	than the size of the vector.
+ *    vector is NULL or the index is less than zero (0) or the index is greater
+ *    than the size of the vector.
  **/
 void* v_rem(vect_t* const v, int index) {
    void *target;
-	int i, size;
+   int i, size;
 
    if(!v) return NULL;
 
@@ -349,13 +349,13 @@ void* v_rem(vect_t* const v, int index) {
    /* Removing from empty list */
    if(v_empty(v)) return NULL;
 
-	size = v->__size;
-	target = v->__elements[index];
+   size = v->__size;
+   target = v->__elements[index];
 
-	/* Shift elements left one position */
-	for(i = index; i < size; i++)
-		v->__elements[i] = v->__elements[i + 1];
-	
+   /* Shift elements left one position */
+   for(i = index; i < size; i++)
+      v->__elements[i] = v->__elements[i + 1];
+
    v->__size--;
    return target;
 }
@@ -366,7 +366,7 @@ void* v_rem(vect_t* const v, int index) {
  *
  * @param v - the vector to retrieve the element from.
  * @return the first element in the vector. Returns NULL if the list is empty
- * 	or NULL.
+ *    or NULL.
  **/
 void* v_remf(vect_t* const v) {
    return v_rem(v, 0);
@@ -378,10 +378,10 @@ void* v_remf(vect_t* const v) {
  *
  * @param v - the vector to retrieve the element from.
  * @return the last element in the vector. Returns NULL if the vector is empty
- * 	or NULL.
+ *    or NULL.
  **/
 void* v_reml(vect_t* const v) {
-	if(!v) return NULL;
+   if(!v) return NULL;
 
    return v_rem(v, v->__size - 1);
 }
@@ -403,8 +403,8 @@ void* v_set(vect_t* const v, int index, void* const elem) {
    if(index < 0 || index >= v->__size)
       return NULL;
 
-	target = v->__elements[index];
-	v->__elements[index] = elem;
+   target = v->__elements[index];
+   v->__elements[index] = elem;
 
    return target;
 }
@@ -429,8 +429,8 @@ void** v_toarr(vect_t* const v) {
 
    if(!array) return NULL;
 
-	/* Assign pointers to new array */
-	array = memcpy(array, v->__elements, sizeof(void*) * size);
+   /* Assign pointers to new array */
+   array = memcpy(array, v->__elements, sizeof(void*) * size);
 
    return (void**) array;
 }
@@ -442,14 +442,14 @@ void** v_toarr(vect_t* const v) {
  * @param v - the vector to trim to size.
  * @return the vector trimmed to its size. Returns NULL if the vector is NULL.
  **/
-void v_trim(vect_t* const v){
-	int size;
+void v_trim(vect_t* const v) {
+   int size;
 
-	if(!v) return;
+   if(!v) return;
 
-	size = v->__size;
-	v->__elements = realloc(v->__elements, sizeof(void*) * size);
-	v->__cap = size;
+   size = v->__size;
+   v->__elements = realloc(v->__elements, sizeof(void*) * size);
+   v->__cap = size;
 }
 
 
@@ -462,8 +462,8 @@ void v_trim(vect_t* const v){
  * @param v - the vector to return an iterator over.
  * @param index - the position that the iterator will start at.
  * @return an iterator over the specified vector. Returns a NULL pointer if the
- * 	specified vector is NULL, (index < 0 || index >= v_size(v)), or upon
- * 	allocation error.
+ *    specified vector is NULL, (index < 0 || index >= v_size(v)), or upon
+ *    allocation error.
  **/
 v_itr_t* v_itr(vect_t* const v, int index) {
    v_itr_t *iterator;
@@ -477,8 +477,8 @@ v_itr_t* v_itr(vect_t* const v, int index) {
 
    if(!iterator) return NULL;
 
-	iterator->vector = v;
-	iterator->pos = index;
+   iterator->vector = v;
+   iterator->pos = index;
 
    /* Index not found */
    return iterator;
@@ -508,9 +508,9 @@ int vi_hasnext(v_itr_t* const itr) {
 
    /* There exists another element */
    if(itr->pos == itr->vector->__size)
-		return !EXIST;
-	
-	return EXIST;
+      return !EXIST;
+
+   return EXIST;
 }
 
 
@@ -526,7 +526,7 @@ int vi_hasprev(v_itr_t* const itr) {
    if(!itr) return !EXIST;
 
    /* There exists a previous element */
-	return (itr->pos ? EXIST : !EXIST);
+   return (itr->pos ? EXIST : !EXIST);
 }
 
 
@@ -538,15 +538,15 @@ int vi_hasprev(v_itr_t* const itr) {
  *    NULL or there are no more elements in the iterator.
  **/
 void* vi_next(v_itr_t* const itr) {
-	void *target;
+   void *target;
 
    if(!itr) return NULL;
 
-	/* If there are more elements */
-	if(!vi_hasnext(itr)) return NULL;
+   /* If there are more elements */
+   if(!vi_hasnext(itr)) return NULL;
 
-	target = itr->vector->__elements[itr->pos];
-	itr->pos++;
+   target = itr->vector->__elements[itr->pos];
+   itr->pos++;
 
    return target;
 }
@@ -560,15 +560,15 @@ void* vi_next(v_itr_t* const itr) {
  *    is NULL or there are no previous elements in the iterator.
  **/
 void* vi_prev(v_itr_t* const itr) {
-	void *target;
+   void *target;
 
    if(!itr) return NULL;
 
-	/* If there are more elements */
-	if(!vi_hasprev(itr)) return NULL;
+   /* If there are more elements */
+   if(!vi_hasprev(itr)) return NULL;
 
-	target = itr->vector->__elements[itr->pos];
-	itr->pos--;
+   target = itr->vector->__elements[itr->pos];
+   itr->pos--;
 
    return target;
 }

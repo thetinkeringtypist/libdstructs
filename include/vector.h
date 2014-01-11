@@ -53,17 +53,17 @@ typedef struct __v_itr_s v_itr_t;
  * NOTE: __v_init(...) is not intended for use by the user. Use the wrapper
  * macro v_init(...) instead.
  **/
-extern   vect_t*	__v_init(size_t __elem_size);
-extern   void		v_free  (vect_t* const v);
+extern   vect_t*  __v_init(size_t __elem_size);
+extern   void     v_free  (vect_t* const v);
 
 extern   int   v_size     (vect_t* const v);
-extern	int	v_cap		  (vect_t* const v);
+extern   int   v_cap      (vect_t* const v);
 
 extern   void  v_addf     (vect_t* const v, void* const elem);
 extern   void  v_addl     (vect_t* const v, void* const elem);
 extern   int   v_add      (vect_t* const v, int index, void* const elem);
 
-extern	void	v_clear	  (vect_t* const v);
+extern   void  v_clear    (vect_t* const v);
 extern   int   v_contains (vect_t* const v, void* const elem);
 
 extern   void* v_get      (vect_t* const v, int index);
@@ -79,7 +79,7 @@ extern   void* v_reml     (vect_t* const v);
 extern   void* v_set      (vect_t* const v, int index, void* const elem);
 
 extern   void**   v_toarr (vect_t* const v);
-extern	void		v_trim  (vect_t* const v);
+extern   void     v_trim  (vect_t* const v);
 
 
 /* Vector Iterator Functions */
