@@ -547,7 +547,7 @@ void** ll_toarr(llist_t* const list) {
 
    count = list->__size;
 
-   array = malloc(sizeof(void*));
+   array = malloc(sizeof(void*) * count);
 
    if(!array) return NULL;
 
