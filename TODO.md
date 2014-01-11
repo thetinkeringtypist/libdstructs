@@ -4,7 +4,6 @@ TODO
 Structures
 ----------
 * Priority-Queue
-* Vector
 * Matrix
 * Sparse-Matrix
 * Binary-Tree
