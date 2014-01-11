@@ -1,7 +1,7 @@
 /**
  * libdstructs: a simple, generic data structures library written in ANSI C.
  *
- * Copyright (C) 2013 Evan Bezeredi <bezeredi.dev@gmail.com>
+ * Copyright (C) 2013, 2014 Evan Bezeredi <bezeredi.dev@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -126,7 +126,7 @@ int ll_add(llist_t* const list, int index, void* const elem) {
 
    if(!list) return !ADDED;
 
-   if(index < 0 || index > ll_size(list))
+   if(index < 0 || index > list->__size)
       return !ADDED;
 
    new = malloc(sizeof(__node_t));  /* Allocate */
@@ -150,7 +150,7 @@ int ll_add(llist_t* const list, int index, void* const elem) {
    }
 
    /* Adding to end of list */
-   if(index == ll_size(list)) {
+   if(index == list->__size) {
       temp = list->__last;
       temp->next = new;
       new->prev = temp;
@@ -214,14 +214,16 @@ void ll_addf(llist_t* const list, void* const elem) {
  * @param elem - the element to add to the list.
  **/
 void ll_addl(llist_t* const list, void* const elem) {
-   ll_add(list, ll_size(list), elem);
+   if(!list) return;
+
+   ll_add(list, list->__size, elem);
 }
 
 
 /**
  * Attempts to remove all elements in the specified list. If the elements of
  * the list are pointers to structures which have allocated memory associated
- * with them, DO NOT use this function as memroy leaks will persist. This
+ * with them, DO NOT use this function as memory leaks will persist. This
  * function frees all memory associated with the underlying implementation of
  * the linkedlist as well as the elements that were placed into the list by the
  * user (provided elements are pointers to simple structures).
@@ -236,18 +238,12 @@ void ll_clear(llist_t* const list) {
     * the first element in the list.
     **/
    while(!ll_empty(list))
-      free(ll_rem(list, 0));
+      free(ll_remf(list));
 }
 
 
 /**
  * Determines if the specified element is contained within this list.
- *
- * NOTE: This function uses memcmp(...). Objects are compared as byte arrays.
- * Accordingly, each element in the object is used to measure equality. As
- * such, it is best that unused items in objects be initialized to either
- * zero (0) or NULL. Uninitialized items in objects may cause comparison
- * differences.
  *
  * @param list - the list possibly containing the specified element.
  * @param elem - the element possibly contained within the specified list.
@@ -293,7 +289,7 @@ void* ll_get(llist_t* const list, int index) {
 
    if(!list) return NULL;
 
-   if(index < 0 || index >= ll_size(list))
+   if(index < 0 || index >= list->__size)
       return NULL;
 
    temp = list->__first;
@@ -335,19 +331,13 @@ void* ll_first(llist_t* const list) {
  *    empty.
  **/
 void* ll_last(llist_t* const list) {
-   return ll_get(list, ll_size(list) - 1);
+   return ll_get(list, list->__size - 1);
 }
 
 
 /**
  * Retrieve the index of the first occurrence of the specifed element in
  * the specified list.
- *
- * NOTE: This function uses memcmp(...). Objects are compared as byte arrays.
- * Accordingly, each element in the object is used to measure equality. As
- * such, it is best that unused items in objects be initialized to either zero
- * (0) or NULL. Uninitialized items in objects may cause comparison
- * differences.
  *
  * @param list - the list to retreive the index from.
  * @param element - the element to search for.
@@ -391,8 +381,7 @@ int ll_indexof(llist_t* const list, void* const elem) {
  * @param arg - the argument to be supplied to the function that will be
  *    applied over the list.
  **/
-void ll_apply(llist_t* const list, void (*funct)(void* const, void* const),
-              void* const arg) {
+void ll_apply(llist_t* const list, void (*funct)(void* const)) {
    __node_t *temp;
 
    if(!list) return;
@@ -401,12 +390,10 @@ void ll_apply(llist_t* const list, void (*funct)(void* const, void* const),
 
    /* For each element in the list */
    while(temp) {
-      (funct)(temp->element, arg);
+      (funct)(temp->element);
 
       temp = temp->next;
    }
-
-   return;
 }
 
 
@@ -427,7 +414,7 @@ void* ll_rem(llist_t* const list, int index) {
 
    if(!list) return NULL;
 
-   if(index < 0 || index >= ll_size(list))
+   if(index < 0 || index >= list->__size)
       return NULL;
 
    /* Removing from empty list */
@@ -502,7 +489,7 @@ void* ll_remf(llist_t* const list) {
  *    NULL.
  **/
 void* ll_reml(llist_t* const list) {
-   return ll_rem(list, ll_size(list) - 1);
+   return ll_rem(list, list->__size - 1);
 }
 
 
@@ -521,7 +508,7 @@ void* ll_set(llist_t* const list, int index, void* const elem) {
 
    if(!list) return NULL;
 
-   if(index < 0 || index >= ll_size(list))
+   if(index < 0 || index >= list->__size)
       return NULL;
 
    temp = list->__first;
@@ -595,7 +582,7 @@ ll_itr_t* ll_itr(llist_t* const list, int index) {
 
    if(!list) return NULL;
 
-   if(index < 0 || index >= ll_size(list))
+   if(index < 0 || index >= list->__size)
       return NULL;
 
    iterator = malloc(sizeof(ll_itr_t));

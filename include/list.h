@@ -1,7 +1,7 @@
 /**
  * libdstructs: a simple, generic data structures library written in ANSI C.
  *
- * Copyright (C) 2013 Evan Bezeredi <bezeredi.dev@gmail.com>
+ * Copyright (C) 2013, 2014 Evan Bezeredi <bezeredi.dev@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,9 +65,7 @@ extern   void* ll_first    (llist_t* const list);
 extern   void* ll_last     (llist_t* const list);
 
 extern   int   ll_indexof  (llist_t* const list, void* const elem);
-extern   void  ll_apply    (llist_t* const list,
-                            void (*funct)(void* const, void* const),
-                            void* const arg);
+extern   void  ll_apply    (llist_t* const list, void (*funct)(void* const));
 
 extern   void* ll_rem      (llist_t* const list, int index);
 extern   void* ll_remf     (llist_t* const list);
