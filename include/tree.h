@@ -40,28 +40,28 @@ typedef struct __bst_s bst_t;
  * NOTE: __bst_init(...) is not intended for use by the user. Use the wrapper
  * macro bst_init(...) instead.
  **/
-extern   bst_t*	__bst_init	(size_t __elem_size);
-extern   void		bst_free		(bst_t* const tree);
+extern   bst_t*   __bst_init  (size_t __elem_size);
+extern   void     bst_free    (bst_t* const tree);
 
-extern	void*		bst_root		(bst_t* const tree);
+extern   void*    bst_root    (bst_t* const tree);
 
-extern	int		bst_height	(bst_t* const tree);
-extern	int		bst_size		(bst_t* const tree);
+extern   int      bst_height  (bst_t* const tree);
+extern   int      bst_size    (bst_t* const tree);
 
-extern   int		bst_contains(bst_t* const tree, void* const elem);
-extern	bst_t*	bst_tree		(bst_t* const tree, void* const elem);
+extern   int      bst_contains(bst_t* const tree, void* const elem);
+extern   bst_t*   bst_tree    (bst_t* const tree, void* const elem);
 
-extern   void*		bst_getl  	(bst_t* const tree);
-extern	void*		bst_getr		(bst_t* const tree);
-extern	bst_t*	bst_left		(bst_t* const tree);
-extern	bst_t*	bst_right	(bst_t* const tree);
+extern   void*    bst_getl    (bst_t* const tree);
+extern   void*    bst_getr    (bst_t* const tree);
+extern   bst_t*   bst_left    (bst_t* const tree);
+extern   bst_t*   bst_right   (bst_t* const tree);
 
-extern   int		bst_add   	(bst_t* const tree, void* const elem);
-extern   void*		bst_rem   	(bst_t* const tree, void* const elem);
+extern   int      bst_add     (bst_t* const tree, void* const elem);
+extern   void*    bst_rem     (bst_t* const tree, void* const elem);
 
-extern   void		bst_apply 	(bst_t* const tree, void (*funct)(void* const));
+extern   void     bst_apply   (bst_t* const tree, void (*funct)(void* const));
 
-extern   void**   bst_toarr 	(bst_t* const tree);
+extern   void**   bst_toarr   (bst_t* const tree);
 
 #endif   /* __LIBDSTRUCTS_TREE_H__ */
 

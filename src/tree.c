@@ -28,11 +28,11 @@
 /**
  * Internal binary search tree definition.
  **/
-struct __bst_s{
-	void *__elem;
-	size_t __elem_size;
-	struct __bst_s *__left;
-	struct __bst_s *__right;
+struct __bst_s {
+   void *__elem;
+   size_t __elem_size;
+   struct __bst_s *__left;
+   struct __bst_s *__right;
 };
 
 
@@ -49,21 +49,21 @@ struct __bst_s{
  *
  * @param __elem_size - the size of an element in the binary search tree.
  * @return a pointer to an empty binary search tree. Returns a NULL pointer
- * 	upon allocation error.
+ *    upon allocation error.
  **/
-bst_t* __bst_init(size_t __elem_size){
-	bst_t *tree;
+bst_t* __bst_init(size_t __elem_size) {
+   bst_t *tree;
 
-	tree = malloc(sizeof(bst_t));
+   tree = malloc(sizeof(bst_t));
 
-	if(!tree) return NULL;
+   if(!tree) return NULL;
 
-	tree->__elem = NULL;
-	tree->__elem_size = __elem_size;
-	tree->__left = NULL;
-	tree->__right = NULL;
+   tree->__elem = NULL;
+   tree->__elem_size = __elem_size;
+   tree->__left = NULL;
+   tree->__right = NULL;
 
-	return tree;
+   return tree;
 }
 
 
@@ -72,24 +72,24 @@ bst_t* __bst_init(size_t __elem_size){
  *
  * @param tree - the binary search tree to destroy.
  **/
-void bst_free(bst_t* const tree){
-	if(!tree) return;
+void bst_free(bst_t* const tree) {
+   if(!tree) return;
 
-	/* Tree has left child; descend */
-	if(tree->__left){
-		bst_free(tree->__left);
-		tree->__left = NULL;
-	}
-	
-	/* Tree has right child; descend */
-	if(tree->__right){
-		bst_free(tree->__right);
-		tree->__right = NULL;
-	}
-	
-	/* No more children; destroy */
-	free(tree->__elem);
-	free(tree);
+   /* Tree has left child; descend */
+   if(tree->__left) {
+      bst_free(tree->__left);
+      tree->__left = NULL;
+   }
+
+   /* Tree has right child; descend */
+   if(tree->__right) {
+      bst_free(tree->__right);
+      tree->__right = NULL;
+   }
+
+   /* No more children; destroy */
+   free(tree->__elem);
+   free(tree);
 }
 
 
@@ -101,8 +101,8 @@ void bst_free(bst_t* const tree){
  * @param tree - the binary search tree to get the root of.
  * @return the element at the root of the binary search tree.
  **/
-void* bst_root(bst_t* const tree){
-	return NULL;
+void* bst_root(bst_t* const tree) {
+   return NULL;
 }
 
 
@@ -113,14 +113,14 @@ void* bst_root(bst_t* const tree){
  *
  * @param tree - the binary search tree to get the height of.
  * @return the height of the binary search tree. Return -1 if the tree is NULL.
- * 	Returns the height of the tree otherwise.
+ *    Returns the height of the tree otherwise.
  **/
-int bst_height(bst_t* const tree){
-	if(!tree) return -1;
+int bst_height(bst_t* const tree) {
+   if(!tree) return -1;
 
-	/* TODO: calculate the height */
+   /* TODO: calculate the height */
 
-	return 0;
+   return 0;
 }
 
 
@@ -130,14 +130,14 @@ int bst_height(bst_t* const tree){
  *
  * @param tree - the binary search tree to get the size of.
  * @return return the size of the tree. In other words, return the number of
- * 	elements in the tree. Returns -1 if the tree is NULL.
+ *    elements in the tree. Returns -1 if the tree is NULL.
  **/
-int bst_size(bst_t* const tree){
-	if(!tree) return -1;
+int bst_size(bst_t* const tree) {
+   if(!tree) return -1;
 
-	/* TODO: calculate the size */
+   /* TODO: calculate the size */
 
-	return 0;
+   return 0;
 }
 
 
@@ -145,38 +145,38 @@ int bst_size(bst_t* const tree){
  * Determines if an element is in a binary search tree.
  *
  * @param tree - the binary search tree possibly containing the specified
- * 	element.
+ *    element.
  * @param elem - the element possibly contained within tree binary search tree.
  * @return 1 if the element exists in the specified list. Returns 0 otherwise
  *    or if the list is NULL;
  **/
-int bst_contains(bst_t* const tree, void* const elem){
-	int result, cmp;
+int bst_contains(bst_t* const tree, void* const elem) {
+   int result, cmp;
 
-	if(!tree || !elem) return !EXIST;
+   if(!tree || !elem) return !EXIST;
 
-	cmp = memcmp(elem, tree->__elem, tree->__elem_size);
+   cmp = memcmp(elem, tree->__elem, tree->__elem_size);
 
-	switch(cmp){
-		/* Not here; search left tree */
-		case -1:
-			return bst_contains(tree->__left, elem);
+   switch(cmp) {
+         /* Not here; search left tree */
+      case -1:
+         return bst_contains(tree->__left, elem);
 
-		/* Here; element exists */
-		case 0:
-			return EXIST;
+         /* Here; element exists */
+      case 0:
+         return EXIST;
 
-		/* Not here; search right tree */
-		case 1:
-			return bst_contains(tree->__right, elem);
+         /* Not here; search right tree */
+      case 1:
+         return bst_contains(tree->__right, elem);
 
-		/* Error; should never occur */
-		default:
-			return !EXIST;
-	}
+         /* Error; should never occur */
+      default:
+         return !EXIST;
+   }
 
-	/* Error; should never occur */
-	return !EXIST;
+   /* Error; should never occur */
+   return !EXIST;
 }
 
 
@@ -189,68 +189,68 @@ int bst_contains(bst_t* const tree, void* const elem){
  * @param tree - the binary search tree to get a subtree from.
  * @param elem - the element to start the new subtree at.
  * @return a pointer to the tree that has elem as its root. Returns NULL if
- * 	either parameter is NULL or if the element does not exist in the tree.
+ *    either parameter is NULL or if the element does not exist in the tree.
  **/
-bst_t* bst_tree(bst_t* const tree, void* const elem){
-	int result, cmp;
+bst_t* bst_tree(bst_t* const tree, void* const elem) {
+   int result, cmp;
 
-	if(!tree || !elem) return NULL;
+   if(!tree || !elem) return NULL;
 
-	cmp = memcmp(elem, tree->__elem, tree->__elem_size);
+   cmp = memcmp(elem, tree->__elem, tree->__elem_size);
 
-	switch(cmp){
-		/* Not here; search left tree */
-		case -1:
-			return bst_tree(tree->__left, elem);
+   switch(cmp) {
+         /* Not here; search left tree */
+      case -1:
+         return bst_tree(tree->__left, elem);
 
-		/* Here; return tree */
-		case 0:
-			return tree;
+         /* Here; return tree */
+      case 0:
+         return tree;
 
-		/* Not here; search right tree */
-		case 1:
-			return bst_tree(tree->__right, elem);
+         /* Not here; search right tree */
+      case 1:
+         return bst_tree(tree->__right, elem);
 
-		/* Error; should never occur */
-		default:
-			return NULL;
-	}
+         /* Error; should never occur */
+      default:
+         return NULL;
+   }
 
-	/* Should never occur */
-	return NULL;
+   /* Should never occur */
+   return NULL;
 }
 
 
 /**
  * Gets (but does not remove) the left child (element) of a binary search tree.
- * 
+ *
  * @param tree - the binary search tree to get the left element of.
  * @return the left element of the binary search tree. Return NULL if the tree
- * 	is NULL or if there is no left child (element).
+ *    is NULL or if there is no left child (element).
  **/
-void* bst_getl(bst_t* const tree){
-	if(!tree) return NULL;
+void* bst_getl(bst_t* const tree) {
+   if(!tree) return NULL;
 
-	if(!tree->__left) return NULL;
+   if(!tree->__left) return NULL;
 
-	return tree->__left->__elem;
+   return tree->__left->__elem;
 }
 
 
 /**
  * Gets (but does not remove) the right child (element) of a binary search
  * tree.
- * 
+ *
  * @param tree - the binary search tree to get the right element of.
  * @return the right element of the binary search tree. Return NULL if the tree
- * 	is NULL or if there is no right child (element).
+ *    is NULL or if there is no right child (element).
  **/
-void* bst_getr(bst_t* const tree){
-	if(!tree) return NULL;
+void* bst_getr(bst_t* const tree) {
+   if(!tree) return NULL;
 
-	if(!tree->__right) return NULL;
+   if(!tree->__right) return NULL;
 
-	return tree->__right->__elem;
+   return tree->__right->__elem;
 }
 
 
@@ -259,12 +259,12 @@ void* bst_getr(bst_t* const tree){
  *
  * @param tree - the binary search tree to get the left subtree of.
  * @return a pointer to the left subtree of the binary search search tree.
- * 	Returns NULL if the tree is NULL or there is no left subtree.
+ *    Returns NULL if the tree is NULL or there is no left subtree.
  **/
-bst_t* bst_left(bst_t* const tree){
-	if(!tree) return NULL;
+bst_t* bst_left(bst_t* const tree) {
+   if(!tree) return NULL;
 
-	return tree->__left;
+   return tree->__left;
 }
 
 
@@ -273,12 +273,12 @@ bst_t* bst_left(bst_t* const tree){
  *
  * @param tree - the binary search tree to get the right subtree of.
  * @return a pointer to the right subtree of the binary search search tree.
- * 	Returns NULL if the tree is NULL or there is no right subtree.
+ *    Returns NULL if the tree is NULL or there is no right subtree.
  **/
-bst_t* bst_right(bst_t* const tree){
-	if(!tree) return NULL;
+bst_t* bst_right(bst_t* const tree) {
+   if(!tree) return NULL;
 
-	return tree->__right;
+   return tree->__right;
 }
 
 /**
@@ -291,12 +291,12 @@ bst_t* bst_right(bst_t* const tree){
  * @param elem - the element to add to a binary search tree.
  * @return 1 if the element was added to the binary search tree.
  **/
-int bst_add(bst_t* const tree, void* const elem){
-	if(!tree || !elem) return !ADDED;
+int bst_add(bst_t* const tree, void* const elem) {
+   if(!tree || !elem) return !ADDED;
 
-	/* TODO: add element to the tree */
+   /* TODO: add element to the tree */
 
-	return !ADDED;
+   return !ADDED;
 }
 
 
@@ -308,15 +308,15 @@ int bst_add(bst_t* const tree, void* const elem){
  * @param tree - the binary search tree to remove an element from.
  * @param elem - the element to remove from a binary search tree.
  * @return the element removed from the binary search tree. Returns NULL if the
- * 	tree is NULL, the element is NULL, or the element does not exist in the
- * 	tree.
+ *    tree is NULL, the element is NULL, or the element does not exist in the
+ *    tree.
  **/
-void* bst_rem(bst_t* const tree, void* const elem){
-	if(!tree || !elem) return NULL;
+void* bst_rem(bst_t* const tree, void* const elem) {
+   if(!tree || !elem) return NULL;
 
-	/* TODO: remove an element from the tree */
+   /* TODO: remove an element from the tree */
 
-	return NULL;
+   return NULL;
 }
 
 
@@ -326,20 +326,20 @@ void* bst_rem(bst_t* const tree, void* const elem){
  * @param tree - the binary search tree to apply a function over.
  * @param funct - the function to apply over a binary search tree.
  **/
-void bst_apply(bst_t* const tree, void (*funct)(void* const)){
-	if(!tree) return;
+void bst_apply(bst_t* const tree, void (*funct)(void* const)) {
+   if(!tree) return;
 
-	if(funct == free){
-		bst_free(tree);
-		return;
-	}
+   if(funct == free) {
+      bst_free(tree);
+      return;
+   }
 
-	/* Apply the function */
-	(funct)(tree->__elem);
+   /* Apply the function */
+   (funct)(tree->__elem);
 
-	/* Apply to left and right subtrees */
-	bst_apply(tree->__left, funct);
-	bst_apply(tree->__right, funct);
+   /* Apply to left and right subtrees */
+   bst_apply(tree->__left, funct);
+   bst_apply(tree->__right, funct);
 }
 
 
@@ -352,17 +352,17 @@ void bst_apply(bst_t* const tree, void (*funct)(void* const)){
  * @param tree - the binary search tree to translate to an array.
  * @return a pointer to an array representation of the binary search tree.
  **/
-void** bst_toarr(bst_t* const tree){
-	int **array;
+void** bst_toarr(bst_t* const tree) {
+   int **array;
 
-	if(!tree) return NULL;
+   if(!tree) return NULL;
 
-	array = malloc(sizeof(void*) * bst_size(tree));
+   array = malloc(sizeof(void*) * bst_size(tree));
 
-	if(!array) return NULL;
+   if(!array) return NULL;
 
-	/* TODO: populate array */
+   /* TODO: populate array */
 
-	return (void**) array;
+   return (void**) array;
 }
 
