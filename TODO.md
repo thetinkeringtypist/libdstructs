@@ -3,14 +3,14 @@ TODO
 
 Structures
 ----------
-* Priority-Queue
-* Matrix
-* Sparse-Matrix
-* Binary-Tree
-* Binary-Search-Tree
-* N-Way-Search-Tree
-* Heap
-* Iterator (?)
+ * Priority-Queue
+ * Matrix
+ * Sparse-Matrix
+ * Binary-Tree
+ * Binary-Search-Tree
+ * N-Way-Search-Tree
+ * Heap
+ * Iterator (?)
 
 
 List
