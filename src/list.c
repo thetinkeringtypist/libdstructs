@@ -420,6 +420,8 @@ void* ll_rem(llist_t* const list, int index) {
    /* Removing from empty list */
    if(ll_empty(list)) return NULL;
 
+	target = NULL;
+
    /* Removing from front of list */
    if(index == 0) {
       target = list->__first;
