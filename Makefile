@@ -22,11 +22,9 @@
 CC = gcc
 CFLAGS = -ansi -Wall -m32 -O2 -c -fpic
 SRCS = list.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
-	priority-queue.c set.c hashtable.c binary-tree.c binary-search-tree.c \
-	heap.c n-way-search-tree.c
+	priority-queue.c set.c hashtable.c tree.c heap.c n-way-search-tree.c
 OBJS = list.o queue.o stack.o vector.o matrix.o sparse-matrix.o \
-	priority-queue.o set.o hashtable.o binary-tree.o binary-search-tree.o \
-	heap.o n-way-search-tree.o
+	priority-queue.o set.o hashtable.o tree.o heap.o n-way-search-tree.o
 HEADS = *.h
 INCL_DIR = -Iinclude
 DSTRUCTS = libdstructs
@@ -59,7 +57,8 @@ set.o:
 
 hashtable.o:
 
-binary-tree.o:
+tree.o: include/tree.h
+	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/tree.c
 
 binary-search-tree.o:
 
