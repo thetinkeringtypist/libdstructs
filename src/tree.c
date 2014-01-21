@@ -151,7 +151,7 @@ int bst_size(bst_t* const tree){
  *    or if the list is NULL;
  **/
 int bst_contains(bst_t* const tree, void* const elem){
-	int result, cmp;
+	int cmp;
 
 	if(!tree || !elem) return !EXIST;
 
@@ -192,7 +192,7 @@ int bst_contains(bst_t* const tree, void* const elem){
  * 	either parameter is NULL or if the element does not exist in the tree.
  **/
 bst_t* bst_tree(bst_t* const tree, void* const elem){
-	int result, cmp;
+	int cmp;
 
 	if(!tree || !elem) return NULL;
 
