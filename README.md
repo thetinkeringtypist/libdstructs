@@ -33,7 +33,7 @@ are implemented in an opaque manner. This means that the data types cannot be
 allocated on the stack. Pointers must be used instead and must be accessed
 though function calls explicitly. For example:
 
-	#include <dstructs/list.h>
+	#include <dstructs.h>
 
 	void example(void){
 		llist_t *list;	/* Pointer on stack */
@@ -50,7 +50,7 @@ though function calls explicitly. For example:
 is how you would create and destroy a linkedlist whose elements are of type
 int. The following is an example of something that cannot be done:
 
-	#include <dstructs/list.h>
+	#include <dstructs.h>
 
 	void example(void){
 		llist_t list;	/* Allocation on the stack */
@@ -65,7 +65,7 @@ linkedlist since the data type is opaque. All of that information is hidden
 inside of the appropriate translation unit. Another example of something that
 cannot be done is dereferencing pointers of these opaque data types:
 
-	#include <dstructs/list.h>
+	#include <dstructs.h>
 
 	void example(void){
 		llist_t *list;
@@ -89,16 +89,10 @@ Installation
 Installation is simple. The following will create both static and shared
 versions of `libdstructs`. The following will build and install them for you:
 
-	./make
-	./make install
-
-You may need up update the linker's runtime bindings in order to use them. To
-do this, perform the following:
-
-	./ldconfig
-
-`libdstructs` libraries are installed under /usr/local/lib and headers are
-installed under /usr/local/include in a folder called `dstructs`.
+	make
+	make test    #! Builds the tests to run
+	make run     #! Runs the tests that were just built
+	make install
 
 
 Use
@@ -122,7 +116,7 @@ implementations.
 
 License
 -------
-Copyright (C) 2013, 2014 Evan Bezeredi <bezeredi.dev@gmail.com>
+Copyright (C) 2013-2017 Evan Bezeredi <bezeredi.dev@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

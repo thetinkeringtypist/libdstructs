@@ -18,7 +18,7 @@
  **/
 #include <stdlib.h>
 #include <string.h>
-#include "dstructs.h"
+#include "dstruct.h"
 
 
 #define EXIST 1

@@ -34,8 +34,8 @@ TEST_DIR = ./test
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
-HEADS = dstructs.h
-LIBNAME = libdstructs
+HEADS = dstruct.h
+LIBNAME = libdstruct
 
 TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
 TEST_OBJS = $(TEST_SRCS:$(TEST_DIR)/%.c=$(TEST_DIR)/%.o)
@@ -56,7 +56,7 @@ $(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 
 test: $(LIBNAME) $(TEST_OBJS)
 	@#! List tests
-	$(CC) $(TEST_FLAGS) $(INCL_PATH) -o $(TEST_PROG) $(TEST_OBJS) -L. -ldstructs
+	$(CC) $(TEST_FLAGS) $(INCL_PATH) -o $(TEST_PROG) $(TEST_OBJS) -L. -ldstruct
 
 $(TEST_OBJS): $(TEST_DIR)/%.o : $(TEST_DIR)/%.c
 	$(CC) $(TEST_FLAGS) $(INCL_PATH) -c $< -o $@
@@ -70,8 +70,8 @@ style:
 	"$(SRCS)" "$(INCL_DIR)/$(HEADS)"
 
 install: $(LIBNAME)
-	mkdir -p /usr/local/include/dstructs
-	cp $(INCL_DIR)/$(HEADS) /usr/local/include/dstructs
+	mkdir -p /usr/local/include/dstruct
+	cp $(INCL_DIR)/$(HEADS) /usr/local/include/dstruct
 
 	mkdir -p /usr/local/lib
 	cp $(LIBNAME).so /usr/local/lib
@@ -80,8 +80,8 @@ install: $(LIBNAME)
 	ldconfig
 
 uninstall:
-	rm -f /usr/local/include/dstructs/$(HEADS)
-	rmdir /usr/local/include/dstructs
+	rm -f /usr/local/include/dstruct/$(HEADS)
+	rmdir /usr/local/include/dstruct
 	rm -f /usr/local/lib/$(LIBNAME).so
 	rm -f /usr/local/lib/$(LIBNAME).a
 
@@ -95,6 +95,6 @@ clean:
 	rm -f $(TEST_PROG)
 
 dist: clean style
-	tar -cvzf libdstructs.tar ../libdstructs --exclude-backups --exclude-vcs \
-		--exclude='libdstructs.tar'
+	tar -cvzf $(LIBNAME).tar ../$(LIBNAME) --exclude-backups --exclude-vcs \
+		--exclude='$(LIBNAME).tar'
 

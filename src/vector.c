@@ -18,7 +18,7 @@
  **/
 #include <stdlib.h>     /* For malloc(...), free(...) */
 #include <string.h>     /* For memcmp(...), memcpy(...) */
-#include "dstructs.h"
+#include "dstruct.h"
 
 #define INIT_SIZE 10
 #define ADDED 1
