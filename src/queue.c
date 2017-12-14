@@ -18,7 +18,7 @@
  **/
 #include <stdio.h>
 #include <stdlib.h>
-#include "dstruct.h"
+#include "dstructs.h"
 
 
 /**

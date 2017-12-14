@@ -17,7 +17,7 @@
  * along with this program.  If not, see {http://www.gnu.org/licenses/}.
  **/
 #include "ctest.h"
-#include "dstruct.h"
+#include "dstructs.h"
 
 CTEST_DATA(intlist){
 	llist_t *l;

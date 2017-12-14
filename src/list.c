@@ -18,7 +18,7 @@
  **/
 #include <stdlib.h>     /* For malloc(...), free(...) */
 #include <string.h>     /* For memcmp(...) */
-#include "dstruct.h"       /* For llist_t, ll_itr_t */
+#include "dstructs.h"       /* For llist_t, ll_itr_t */
 
 
 #define ADDED 1
