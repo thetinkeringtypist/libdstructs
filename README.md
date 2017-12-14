@@ -1,5 +1,5 @@
-The dstructss Library
-===================
+The dstructs Library
+====================
 Simple ANSI C Data Structures Library. This generic data structures library is
 written in ANSI C. As of this moment, these implementations are not intended to
 be C++ compatible or thread-safe.
