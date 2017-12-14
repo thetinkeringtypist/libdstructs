@@ -1,4 +1,4 @@
-libdstructs
+libdstruct
 ===========
 Simple ANSI C Data Structures Library. This is generic data structures library
 written in ANSI C. As of this moment, these implementations are not intended to
@@ -14,7 +14,7 @@ projects for school like linkedlists, queues, stacks, and hashtables. Many
 times, this was born out of the restriction of not being able to use arrays in
 projects. So, why not build a collection of the data structures most commonly
 used and put them in a library for future use? There are a bunch of libraries
-like this one out there. This library, `libdstructs`, was built to model the
+like this one out there. This library, `libdstruct`, was built to model the
 basic functionality of the
 [Java Collections Framework](http://docs.oracle.com/javase/7/docs/technotes/guides/collections/).
 
@@ -25,7 +25,7 @@ trees, sets, and hashtables.
 
 Implemenation
 -------------
-`libdstructs` data structures are designed in such a manner so as to force the
+`libdstruct` data structures are designed in such a manner so as to force the
 idea of data encapsulation. This, unfortunately, means that memory allocation
 is a must. Also to keep the user from unintentionally playing with pointers
 which could mess up the underlying representation of the structure, data types
@@ -33,7 +33,7 @@ are implemented in an opaque manner. This means that the data types cannot be
 allocated on the stack. Pointers must be used instead and must be accessed
 though function calls explicitly. For example:
 
-	#include <dstructs.h>
+	#include <dstruct.h>
 
 	void example(void){
 		llist_t *list;	/* Pointer on stack */
@@ -50,7 +50,7 @@ though function calls explicitly. For example:
 is how you would create and destroy a linkedlist whose elements are of type
 int. The following is an example of something that cannot be done:
 
-	#include <dstructs.h>
+	#include <dstruct.h>
 
 	void example(void){
 		llist_t list;	/* Allocation on the stack */
@@ -65,7 +65,7 @@ linkedlist since the data type is opaque. All of that information is hidden
 inside of the appropriate translation unit. Another example of something that
 cannot be done is dereferencing pointers of these opaque data types:
 
-	#include <dstructs.h>
+	#include <dstruct.h>
 
 	void example(void){
 		llist_t *list;
@@ -87,7 +87,7 @@ As a result, the user will often see the error: dereferencing incomplete type.
 Installation
 ------------
 Installation is simple. The following will create both static and shared
-versions of `libdstructs`. The following will build and install them for you:
+versions of `libdstruct`. The following will build and install them for you:
 
 	make
 	make test    #! Builds the tests to run
@@ -100,11 +100,11 @@ Use
 After installing the libraries, they may be used either statically or
 dynamically. To use the dynamic version of the library, perform the following:
 
-	./gcc  ...  -ldstructs
+	./gcc  ...  -ldstruct
 
 To use the static version of the library, perform the following:
 
-	./gcc  ...  --static -ldstructs
+	./gcc  ...  --static -ldstruct
 
 
 Notes
@@ -131,6 +131,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see {http://www.gnu.org/licenses/}.
 
 
-See [LICENSE](https://github.com/bezeredi/libdstructs/blob/master/LICENSE) for
+See [LICENSE](https://github.com/bezeredi/libdstruct/blob/master/LICENSE) for
 more information.
 
