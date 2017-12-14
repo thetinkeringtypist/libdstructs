@@ -18,8 +18,7 @@
  **/
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
-#include "list.h"
+#include "dstructs.h"
 
 
 /**

@@ -16,29 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see {http://www.gnu.org/licenses/}.
  **/
-#ifndef __LIBDSTRUCTS_STACK_H__
-#define __LIBDSTRUCTS_STACK_H__
+#include "ctest.h"
+#include "dstructs.h"
 
+CTEST_DATA(intlist){
+	llist_t *l;
+};
 
-/**
- * Stack public, opaque data type. Contents only accessable through function
- * calls.
- **/
-typedef struct stack_s stack_t;
+CTEST_SETUP(intlist){
+	data->l= ll_init(int);
+	int number = 1;
+	int n = 2;
+	int m = 3;
 
+	ll_add(data->l, 1, &number);
+	ll_add(data->l, 2, &n);
+	ll_add(data->l, 3, &m);
+}
 
-/* Wrapper macro for __s_init(...) */
-#define s_init(type) (__s_init(sizeof(type)))
-#define s_empty(S) (!s_top(S))
+CTEST_TEARDOWN(intlist){
+	ll_free(data->l);
+}
 
-extern stack_t*  __s_init (size_t __elem_size);
-extern void    s_free   (stack_t* const s);
-
-extern int     s_size   (stack_t* const s);
-extern void*   s_top    (stack_t* const s);
-extern void    s_push   (stack_t* const s, void* const elem);
-extern void*   s_pop    (stack_t* const s);
-extern void**  s_toarr  (stack_t* const s);
-
-#endif   /* __LIBDSTRUCTS_STACK_H__ */
+CTEST2(intlist, length_test){
+	ASSERT_EQUAL(3, ll_size(data->l));
+}
 

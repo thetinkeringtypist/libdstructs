@@ -18,73 +18,81 @@
 #!
 #  Makefile for libdstructs.
 #
+.phony: all pre-build test run style clean install uninstall dist
 
+SHELL = bash
 CC = gcc
-CFLAGS = -ansi -Wall -m32 -O2 -c -fpic
-SRCS = list.c queue.c stack.c vector.c matrix.o sparse-matrix.c \
-	priority-queue.c set.c hashtable.c tree.c heap.c n-way-search-tree.c
-OBJS = list.o queue.o stack.o vector.o matrix.o sparse-matrix.o \
-	priority-queue.o set.o hashtable.o tree.o heap.o n-way-search-tree.o
-HEADS = *.h
-INCL_DIR = -Iinclude
-DSTRUCTS = libdstructs
+CFLAGS = -ansi -Wall -O2 -c -fpic
+TEST_FLAGS = -ansi -Wall -O2
 
-all: libdstructs
+INCL_PATH = -Iinclude
 
-libdstructs: $(OBJS)
-	gcc -shared -o $(DSTRUCTS).so $(INCL_DIR) obj/*.o
-	ar -cvr $(DSTRUCTS).a obj/*.o
+INCL_DIR = ./include
+SRC_DIR = ./src
+OBJ_DIR = ./obj
+TEST_DIR = ./test
 
-list.o: include/list.h
-	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/list.c
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+HEADS = dstructs.h
+LIBNAME = libdstructs
 
-queue.o: include/queue.h include/list.h
-	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/queue.c
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.c)
+TEST_OBJS = $(TEST_SRCS:$(TEST_DIR)/%.c=$(TEST_DIR)/%.o)
+TEST_PROG = dstruct-tests
 
-stack.o: include/stack.h include/list.h
-	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/stack.c
 
-vector.o: include/vector.h
-	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/vector.c
+all: $(LIBNAME)
 
-matrix.o:
+$(LIBNAME): pre-build $(OBJS)
+	gcc -shared $(INCL_PATH) $(OBJS) -o $(LIBNAME).so
+	ar -crs $(LIBNAME).a $(OBJS)
 
-sparse-matrix.o:
+pre-build:
+	mkdir -p $(OBJ_DIR)
 
-priority-queue.o:
+$(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(INCL_PATH) $< -o $@
 
-set.o:
+test: $(LIBNAME) $(TEST_OBJS)
+	@#! List tests
+	$(CC) $(TEST_FLAGS) $(INCL_PATH) -o $(TEST_PROG) $(TEST_OBJS) -L. -ldstructs
 
-hashtable.o:
+$(TEST_OBJS): $(TEST_DIR)/%.o : $(TEST_DIR)/%.c
+	$(CC) $(TEST_FLAGS) $(INCL_PATH) -c $< -o $@
 
-tree.o: include/tree.h
-	$(CC) $(CFLAGS) $(INCL_DIR) -o obj/$@ src/tree.c
-
-binary-search-tree.o:
-
-heap.o:
-
-n-way-search-tree.o:
-
+#! Run tests
+run: test
+	LD_LIBRARY_PATH=. $(TEST_PROG)
 
 style:
-	astyle -r -s3 -a -S --indent-preprocessor --convert-tabs "src/*.c" \
-	"include/*.h"
+	astyle -r -s3 -a -S --indent-preprocessor --convert-tabs \
+	"$(SRCS)" "$(INCL_DIR)/$(HEADS)"
 
-install:
-	mkdir /usr/local/include/dstructs
-	cp include/*.h /usr/local/include/dstructs
-	cp $(DSTRUCTS).so /usr/local/lib
-	cp $(DSTRUCTS).a  /usr/local/lib
+install: $(LIBNAME)
+	mkdir -p /usr/local/include/dstructs
+	cp $(INCL_DIR)/$(HEADS) /usr/local/include/dstructs
+
+	mkdir -p /usr/local/lib
+	cp $(LIBNAME).so /usr/local/lib
+	cp $(LIBNAME).a  /usr/local/lib
+
+	ldconfig
 
 uninstall:
-	rm /usr/local/include/dstructs/*.h
+	rm -f /usr/local/include/dstructs/$(HEADS)
 	rmdir /usr/local/include/dstructs
-	rm /usr/local/lib/$(DSTRUCTS).so
-	rm /usr/local/lib/$(DSTRUCTS).a
+	rm -f /usr/local/lib/$(LIBNAME).so
+	rm -f /usr/local/lib/$(LIBNAME).a
+
+	ldconfig
 
 clean:
-	rm -f obj/$(OBJS) $(DSTRUCTS).*
+	rm -f $(OBJ_DIR)/*.o
+	rmdir $(OBJ_DIR)
+	rm -f $(LIBNAME).so $(LIBNAME).a
+	rm -f $(TEST_OBJS)
+	rm -f $(TEST_PROG)
 
 dist: clean style
 	tar -cvzf libdstructs.tar ../libdstructs --exclude-backups --exclude-vcs \
